@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqiy15cswqe5o"]
+
+[ext_resource type="ArrayMesh" uid="uid://dxg0prjorbwln" path="res://assets/terrain/terrain_sideCorner.obj" id="2_cli62"]
+[ext_resource type="PackedScene" uid="uid://c8k5sn6n46v8" path="res://players/base_player.tscn" id="2_w52gu"]
+[ext_resource type="Environment" uid="uid://bjd4g046m323e" path="res://environment/default_environment.tres" id="3_58450"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s100o"]
+albedo_color = Color(0.858824, 0.529412, 0.376471, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3g75x"]
+material = SubResource("StandardMaterial3D_s100o")
+size = Vector2(100, 100)
+
+[node name="Level" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_w52gu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+
+[node name="Terrain" type="Node3D" parent="."]
+
+[node name="Floor" type="Node3D" parent="Terrain"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/Floor"]
+mesh = SubResource("PlaneMesh_3g75x")
+
+[node name="Hill" type="Node3D" parent="Terrain"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/Hill"]
+mesh = ExtResource("2_cli62")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Terrain/Hill"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+mesh = ExtResource("2_cli62")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Terrain/Hill"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+mesh = ExtResource("2_cli62")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Terrain/Hill"]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0, 0, 0)
+mesh = ExtResource("2_cli62")
+skeleton = NodePath("../../..")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.146447, 0.853553, 0.5, -0.5, -0.5, 0.707107, 0.853553, -0.146447, 0.5, 0, 15.5, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("3_58450")

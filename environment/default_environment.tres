@@ -1,0 +1,7 @@
+[gd_resource type="Environment" format=3 uid="uid://bjd4g046m323e"]
+
+[resource]
+tonemap_mode = 3
+tonemap_exposure = 0.5
+sdfgi_enabled = true
+sdfgi_use_occlusion = true

@@ -1,6 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8k5sn6n46v8"]
+[gd_scene load_steps=4 format=3 uid="uid://c8k5sn6n46v8"]
 
 [ext_resource type="Script" path="res://players/base_player.gd" id="1_knhe1"]
+[ext_resource type="ArrayMesh" uid="uid://cvyt3532d5yde" path="res://assets/models/ships/craft_speederD.obj" id="2_2j4y7"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_d708e"]
+radius = 1.0
 
 [node name="Player" type="CharacterBody3D"]
+motion_mode = 1
+up_direction = Vector3(0, 0, -1)
 script = ExtResource("1_knhe1")
+
+[node name="HitBox" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_d708e")
+
+[node name="ShipMeshPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="ShipMesh" type="MeshInstance3D" parent="ShipMeshPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+gi_mode = 2
+mesh = ExtResource("2_2j4y7")
+skeleton = NodePath("../..")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(-0.99997, -0.00583654, 0.00516308, 0.00221281, 0.422612, 0.906308, -0.00747168, 0.906292, -0.422587, 0, 0, 0)
+
+[node name="Camera" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
+size = 40.0
