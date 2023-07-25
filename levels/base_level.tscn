@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqiy15cswqe5o"]
+[gd_scene load_steps=7 format=3 uid="uid://dqiy15cswqe5o"]
 
 [ext_resource type="ArrayMesh" uid="uid://dxg0prjorbwln" path="res://assets/terrain/terrain_sideCorner.obj" id="2_cli62"]
 [ext_resource type="PackedScene" uid="uid://c8k5sn6n46v8" path="res://players/base_player.tscn" id="2_w52gu"]
 [ext_resource type="Environment" uid="uid://bjd4g046m323e" path="res://environment/default_environment.tres" id="3_58450"]
+[ext_resource type="PackedScene" uid="uid://cmcq20y6k4wh4" path="res://debug/debug_menu.tscn" id="4_p8vts"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s100o"]
 albedo_color = Color(0.858824, 0.529412, 0.376471, 1)
@@ -15,8 +16,10 @@ size = Vector2(100, 100)
 
 [node name="Player" parent="." instance=ExtResource("2_w52gu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+speed_base = 20
 
 [node name="Terrain" type="Node3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 
 [node name="Floor" type="Node3D" parent="Terrain"]
 
@@ -49,3 +52,5 @@ transform = Transform3D(-0.146447, 0.853553, 0.5, -0.5, -0.5, 0.707107, 0.853553
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_58450")
+
+[node name="DebugMenu" parent="." instance=ExtResource("4_p8vts")]

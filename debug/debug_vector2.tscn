@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://xhy5mfugv43n"]
+
+[ext_resource type="Script" path="res://debug/debug_vector2.gd" id="1_dhmum"]
+[ext_resource type="Material" uid="uid://debld8pokmr4r" path="res://assets/materials/debug/mtrl_debug_blue.tres" id="2_n3h6i"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_n824u"]
+top_radius = 0.0
+bottom_radius = 0.0
+
+[node name="DebugVector2" type="Node3D"]
+script = ExtResource("1_dhmum")
+
+[node name="MeshInstance" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+material_override = ExtResource("2_n3h6i")
+mesh = SubResource("CylinderMesh_n824u")

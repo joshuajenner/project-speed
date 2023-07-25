@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmcq20y6k4wh4"]
+
+[ext_resource type="Script" path="res://debug/debug_menu.gd" id="1_37sc4"]
+
+[node name="DebugMenu" type="CanvasLayer"]
+script = ExtResource("1_37sc4")
+
+[node name="Main" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="Main"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0

@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8k5sn6n46v8"]
+[gd_scene load_steps=8 format=3 uid="uid://c8k5sn6n46v8"]
 
 [ext_resource type="Script" path="res://players/base_player.gd" id="1_knhe1"]
 [ext_resource type="ArrayMesh" uid="uid://cvyt3532d5yde" path="res://assets/models/ships/craft_speederD.obj" id="2_2j4y7"]
+[ext_resource type="Script" path="res://debug/debug_parent.gd" id="3_634v2"]
+[ext_resource type="PackedScene" uid="uid://xhy5mfugv43n" path="res://debug/debug_vector2.tscn" id="4_ypaq8"]
+[ext_resource type="Material" uid="uid://debld8pokmr4r" path="res://assets/materials/debug/mtrl_debug_blue.tres" id="5_shkg3"]
+[ext_resource type="Material" uid="uid://uxfpt501kd13" path="res://assets/materials/debug/mtrl_debug_green.tres" id="6_qfryw"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_d708e"]
 radius = 1.0
@@ -15,17 +19,30 @@ script = ExtResource("1_knhe1")
 shape = SubResource("SphereShape3D_d708e")
 
 [node name="ShipMeshPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="ShipMesh" type="MeshInstance3D" parent="ShipMeshPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.5, 0)
 gi_mode = 2
 mesh = ExtResource("2_2j4y7")
 skeleton = NodePath("../..")
 
 [node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(-0.99997, -0.00583654, 0.00516308, 0.00221281, 0.422612, 0.906308, -0.00747168, 0.906292, -0.422587, 0, 0, 0)
+transform = Transform3D(-1, -6.18172e-08, 6.18173e-08, 0, 0.707107, 0.707107, -8.74228e-08, 0.707107, -0.707107, 0, 0, 0)
 
 [node name="Camera" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 30)
 size = 40.0
+
+[node name="DebugParent" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+script = ExtResource("3_634v2")
+
+[node name="InputDebug" parent="DebugParent" instance=ExtResource("4_ypaq8")]
+material = ExtResource("5_shkg3")
+radius = 0.05
+length = 4.0
+
+[node name="CurrentDirectionDebug" parent="DebugParent" instance=ExtResource("4_ypaq8")]
+material = ExtResource("6_qfryw")
+radius = 0.05
+length = 4.0
