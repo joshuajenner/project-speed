@@ -1,7 +1,12 @@
 [gd_resource type="Environment" format=3 uid="uid://bjd4g046m323e"]
 
 [resource]
+background_mode = 1
+background_color = Color(0.443137, 0.803922, 1, 1)
+background_energy_multiplier = 0.2
+reflected_light_source = 2
 tonemap_mode = 3
 tonemap_exposure = 0.5
 sdfgi_enabled = true
 sdfgi_use_occlusion = true
+volumetric_fog_density = 0.005
