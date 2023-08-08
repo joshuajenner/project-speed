@@ -13,11 +13,13 @@ extends CharacterBody3D
 @export var accleration: int = 10
 @export var turn_speed : float = 0.1
 
-@export var direction_input: Vector2 = Vector2(0, 0)
+@export var direction_target: Vector2 = Vector2(0, 0)
 @export var direction_current: Vector2 = Vector2(0, 1)
 
-var input_is_active: bool = false
+var has_active_target_direction: bool = false
+var target_direction_reached: bool = false
 
+var max_roll: float = 30
 
 func _physics_process(delta):
 	get_input()
@@ -26,13 +28,13 @@ func _physics_process(delta):
 
 
 func get_input():
-	direction_input.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
-	direction_input.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
-	direction_input = direction_input.normalized()
+	direction_target.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
+	direction_target.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
+	direction_target = direction_target.normalized()
 	
-	input_is_active = vector2_not_zero(direction_input)
+	has_active_target_direction = vector2_not_zero(direction_target)
 	# debug
-	input_debug.draw_line(direction_input.normalized())
+	input_debug.draw_line(direction_target.normalized())
 
 
 func vector2_not_zero(vector: Vector2) -> bool:
@@ -43,8 +45,8 @@ func vector2_not_zero(vector: Vector2) -> bool:
 
 
 func handle_flight():
-	if input_is_active:
-		var input_angle = direction_input.angle()
+	if has_active_target_direction:
+		var input_angle = direction_target.angle()
 		var current_angle = direction_current.angle()
 		var new_angle = lerp_angle(current_angle, input_angle, turn_speed)
 		direction_current = Vector2.from_angle(new_angle)
@@ -57,5 +59,55 @@ func handle_flight():
 
 
 func rotate_ship_mesh() -> void:
-	var adjusted_vector = Vector2(direction_current.x, -direction_current.y) 
+	var adjusted_vector = Vector2(direction_current.x, -direction_current.y)
 	ship_mesh_pivot.rotation.y = adjusted_vector.angle()
+	
+	if has_active_target_direction:
+		var angle_to_target = rad_to_deg(direction_current.angle_to(direction_target))
+		if angle_to_target > 1:
+			lerp_add_ship_roll(angle_to_target)
+		else:
+			lerp_reset_ship_roll()
+	else:
+		lerp_reset_ship_roll()
+#		var current_to_target_difference = direction_current.dot(direction_input)
+#		print(current_to_target_difference)
+#		if current_to_target_difference <= 0:
+#			var added_rotation = dot_to_added_roll(current_to_target_difference)
+#			ship_mesh_pivot.rotation.x = min(max_roll, (ship_mesh_pivot.rotation.x + added_rotation))
+#		else:
+#			ship_mesh_pivot.rotation.x = max(0, (ship_mesh_pivot.rotation.x - 1))
+#	else:
+#		ship_mesh_pivot.rotation.x = max(0, (ship_mesh_pivot.rotation.x - 1))
+
+
+func lerp_add_ship_roll(angle_to_target: float) -> void:
+	if angle_to_target < 0:
+		ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, deg_to_rad(-max_roll), 0.1)
+	else:
+		ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, deg_to_rad(max_roll), 0.1)
+#	var new_rotation = deg_to_rad() + added_roll
+#	if abs(new_rotation) < max_roll:
+#		ship_mesh_pivot.rotation.x = new_rotation
+		
+
+
+func lerp_reset_ship_roll() -> void:
+	var lowered_roll = lerpf(ship_mesh_pivot.rotation.x, 0, 0.1)
+	if lowered_roll <= 1:
+		ship_mesh_pivot.rotation.x = 0
+	else:
+		ship_mesh_pivot.rotation.x = lowered_roll
+
+
+func dot_to_added_roll(dot: float) -> int:
+	if dot >= -1:
+		return 5
+	elif dot <= -0.8:
+		return 4
+	elif dot <= -0.6:
+		return 3
+	elif dot <= -0.4:
+		return 2
+	else:
+		return 1
