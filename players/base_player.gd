@@ -11,7 +11,7 @@ extends CharacterBody3D
 @export var speed_max: int = 500
 
 @export var accleration: int = 10
-@export var turn_speed : float = 0.1
+@export var turn_speed : float = 0.05
 
 @export var direction_target: Vector2 = Vector2(0, 0)
 @export var direction_current: Vector2 = Vector2(0, 1)
@@ -64,7 +64,7 @@ func rotate_ship_mesh() -> void:
 	
 	if has_active_target_direction:
 		var angle_to_target = rad_to_deg(direction_current.angle_to(direction_target))
-		if angle_to_target > 1:
+		if angle_to_target > 5:
 			lerp_add_ship_roll(angle_to_target)
 		else:
 			lerp_reset_ship_roll()
@@ -93,11 +93,16 @@ func lerp_add_ship_roll(angle_to_target: float) -> void:
 
 
 func lerp_reset_ship_roll() -> void:
-	var lowered_roll = lerpf(ship_mesh_pivot.rotation.x, 0, 0.1)
-	if lowered_roll <= 1:
-		ship_mesh_pivot.rotation.x = 0
-	else:
-		ship_mesh_pivot.rotation.x = lowered_roll
+	ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, 0, 0.1)
+#	if lowered_roll <= 1:
+#		ship_mesh_pivot.rotation.x = 0
+#	else:
+#		ship_mesh_pivot.rotation.x = lowered_roll
+#	var lowered_roll = lerpf(ship_mesh_pivot.rotation.x, 0, 0.1)
+#	if lowered_roll <= 1:
+#		ship_mesh_pivot.rotation.x = 0
+#	else:
+#		ship_mesh_pivot.rotation.x = lowered_roll
 
 
 func dot_to_added_roll(dot: float) -> int:
