@@ -11,7 +11,7 @@ extends CharacterBody3D
 @export var speed_max: int = 500
 
 @export var accleration: int = 10
-@export var turn_speed : float = 0.05
+@export var turn_speed : float = 0.03
 
 @export var direction_target: Vector2 = Vector2(0, 0)
 @export var direction_current: Vector2 = Vector2(0, 1)
@@ -19,7 +19,7 @@ extends CharacterBody3D
 var has_active_target_direction: bool = false
 var target_direction_reached: bool = false
 
-var max_roll: float = 30
+var max_roll: float = 45
 
 func _physics_process(delta):
 	get_input()
@@ -64,7 +64,7 @@ func rotate_ship_mesh() -> void:
 	
 	if has_active_target_direction:
 		var angle_to_target = rad_to_deg(direction_current.angle_to(direction_target))
-		if angle_to_target > 5:
+		if abs(angle_to_target) > 20:
 			lerp_add_ship_roll(angle_to_target)
 		else:
 			lerp_reset_ship_roll()
@@ -83,9 +83,9 @@ func rotate_ship_mesh() -> void:
 
 func lerp_add_ship_roll(angle_to_target: float) -> void:
 	if angle_to_target < 0:
-		ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, deg_to_rad(-max_roll), 0.1)
+		ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, deg_to_rad(-max_roll), 0.05)
 	else:
-		ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, deg_to_rad(max_roll), 0.1)
+		ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, deg_to_rad(max_roll), 0.05)
 #	var new_rotation = deg_to_rad() + added_roll
 #	if abs(new_rotation) < max_roll:
 #		ship_mesh_pivot.rotation.x = new_rotation
