@@ -6,7 +6,7 @@ extends CharacterBody3D
 @onready var ship_mesh_pivot = $ShipMeshPivot
 
 
-@export var speed_base: int = 10
+@export var speed_base: int = 100
 @export var speed_current: int = 100
 @export var speed_max: int = 500
 
@@ -21,6 +21,7 @@ var target_direction_reached: bool = false
 
 var max_roll: float = 45
 
+
 func _physics_process(delta):
 	get_input()
 	handle_flight()
@@ -33,6 +34,7 @@ func get_input():
 	direction_target = direction_target.normalized()
 	
 	has_active_target_direction = vector2_not_zero(direction_target)
+	
 	# debug
 	input_debug.draw_line(direction_target.normalized())
 
@@ -70,15 +72,6 @@ func rotate_ship_mesh() -> void:
 			lerp_reset_ship_roll()
 	else:
 		lerp_reset_ship_roll()
-#		var current_to_target_difference = direction_current.dot(direction_input)
-#		print(current_to_target_difference)
-#		if current_to_target_difference <= 0:
-#			var added_rotation = dot_to_added_roll(current_to_target_difference)
-#			ship_mesh_pivot.rotation.x = min(max_roll, (ship_mesh_pivot.rotation.x + added_rotation))
-#		else:
-#			ship_mesh_pivot.rotation.x = max(0, (ship_mesh_pivot.rotation.x - 1))
-#	else:
-#		ship_mesh_pivot.rotation.x = max(0, (ship_mesh_pivot.rotation.x - 1))
 
 
 func lerp_add_ship_roll(angle_to_target: float) -> void:
@@ -86,33 +79,7 @@ func lerp_add_ship_roll(angle_to_target: float) -> void:
 		ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, deg_to_rad(-max_roll), 0.05)
 	else:
 		ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, deg_to_rad(max_roll), 0.05)
-#	var new_rotation = deg_to_rad() + added_roll
-#	if abs(new_rotation) < max_roll:
-#		ship_mesh_pivot.rotation.x = new_rotation
-		
 
 
 func lerp_reset_ship_roll() -> void:
 	ship_mesh_pivot.rotation.x = lerpf(ship_mesh_pivot.rotation.x, 0, 0.1)
-#	if lowered_roll <= 1:
-#		ship_mesh_pivot.rotation.x = 0
-#	else:
-#		ship_mesh_pivot.rotation.x = lowered_roll
-#	var lowered_roll = lerpf(ship_mesh_pivot.rotation.x, 0, 0.1)
-#	if lowered_roll <= 1:
-#		ship_mesh_pivot.rotation.x = 0
-#	else:
-#		ship_mesh_pivot.rotation.x = lowered_roll
-
-
-func dot_to_added_roll(dot: float) -> int:
-	if dot >= -1:
-		return 5
-	elif dot <= -0.8:
-		return 4
-	elif dot <= -0.6:
-		return 3
-	elif dot <= -0.4:
-		return 2
-	else:
-		return 1
