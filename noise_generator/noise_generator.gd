@@ -10,9 +10,9 @@ extends Control
 @onready var offset_y_input: SpinBox = %OffsetYInput
 @onready var offset_z_input: SpinBox = %OffsetZInput
 
-@onready var cellular_distance_function_input: OptionButton = %CDFInput
+@onready var cellular_distance_function_input: OptionButton = %CellularDistanceFunctionInput
 @onready var cellular_jitter_input: SpinBox = %CellularJitterInput
-@onready var cellular_return_type_input: OptionButton = %CRTInput
+@onready var cellular_return_type_input: OptionButton = %CellularReturnTypeInput
 
 @onready var domain_warp_amplitude_input: SpinBox = %DomainWarpAmplitudeInput
 @onready var domain_warp_enabled_input: CheckBox = %DomainWarpEnabledInput
@@ -29,6 +29,12 @@ extends Control
 @onready var fractal_ping_pong_strength_input: SpinBox = %FractalPingPongStrengthInput
 @onready var fractal_type_input: OptionButton = %FractalTypeInput
 @onready var fractal_weighted_strength_input: SpinBox = %FractalWeightedStrengthInput
+
+
+@onready var noise_display: TextureRect = %NoiseDisplay
+
+const IMAGE_SIZE := Vector2(512, 512)
+const IMAGE_FORMAT := Image.FORMAT_RGB8
 
 
 const noise_types: Array = [
@@ -71,17 +77,63 @@ const domain_warp_fractal_types: Array = [
 	["Independent", FastNoiseLite.DOMAIN_WARP_FRACTAL_INDEPENDENT],
 ]
 
-var noise: Object
+var noise: FastNoiseLite
 var noise_resource: NoiseResource
+
+
+var is_live: bool = false
+var is_mouse_over_noise_display: bool = false
+var is_mouse_pressed: bool = false
+
 
 func _ready():
 	init_ui()
 	
-	noise_resource = NoiseResource.new()
 	noise = FastNoiseLite.new()
+	noise_resource = NoiseResource.new()
 	
 	load_values_from_resource()
+	set_noise_values()
+	
+	display_noise()
 
+
+func display_noise() -> void:
+	var window := get_window()
+	var new_image := Image.create(window.size.x, window.size.y, false, IMAGE_FORMAT) 
+	
+	for x in range(0, window.size.x):
+		for y in range(0, window.size.y):
+			var noise_level = (noise.get_noise_2d(x, y) + 1) / 2
+			new_image.set_pixel(x, y, Color(noise_level, noise_level, noise_level, 1))
+	
+	noise_display.texture = ImageTexture.create_from_image(new_image)
+
+func set_noise_values() -> void:
+	noise.noise_type = noise_resource.noise_type
+	noise.seed = noise_resource.seed
+	noise.frequency = noise_resource.frequency
+	noise.offset = noise_resource.offset
+	
+	noise.cellular_distance_function = noise_resource.cellular_distance_function
+	noise.cellular_jitter = noise_resource.cellular_jitter
+	noise.cellular_return_type = noise_resource.cellular_return_type
+	
+	noise.domain_warp_amplitude = noise_resource.domain_warp_amplitude
+	noise.domain_warp_enabled = noise_resource.domain_warp_enabled
+	noise.domain_warp_fractal_gain = noise_resource.domain_warp_fractal_gain
+	noise.domain_warp_fractal_lacunarity = noise_resource.domain_warp_fractal_lacunarity
+	noise.domain_warp_fractal_octaves = noise_resource.domain_warp_fractal_octaves
+	noise.domain_warp_fractal_type = noise_resource.domain_warp_fractal_type
+	noise.domain_warp_frequency = noise_resource.domain_warp_frequency
+	noise.domain_warp_type = noise_resource.domain_warp_type
+	
+	noise.fractal_gain = noise_resource.fractal_gain
+	noise.fractal_lacunarity = noise_resource.fractal_lacunarity
+	noise.fractal_octaves = noise_resource.fractal_octaves
+	noise.fractal_ping_pong_strength = noise_resource.fractal_ping_pong_strength
+	noise.fractal_type = noise_resource.fractal_type
+	noise.fractal_weighted_strength = noise_resource.fractal_weighted_strength
 
 func load_values_from_resource() -> void:
 	noise_type_input.select(noise_resource.noise_type)
@@ -122,3 +174,128 @@ func init_ui() -> void:
 func add_options_to_input(options: Array, input: OptionButton) -> void:
 	for option in options:
 		input.add_item(option[0], option[1])
+
+
+func _on_generate_button_pressed():
+	set_noise_values()
+	display_noise()
+
+#func _on_noise_display_gui_input(event):
+#	print(event)
+#	if event is InputEventMouseButton:
+#		if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+#			print("down")
+#		elif event.button_index == MOUSE_BUTTON_LEFT and not event.is_pressed():
+#			print("up")
+
+
+func _on_noise_display_mouse_entered():
+	is_mouse_over_noise_display = true
+
+func _on_noise_display_mouse_exited():
+	is_mouse_over_noise_display = false
+
+
+func check_if_live() -> void:
+	if is_live:
+		set_noise_values()
+		display_noise()
+
+
+func _on_live_toggle_toggled(button_pressed):
+	is_live = button_pressed
+
+
+# ---------- Input Signals
+
+func _on_noise_type_input_item_selected(index):
+	noise_resource.noise_type = index
+	check_if_live()
+
+func _on_seed_input_value_changed(value):
+	noise_resource.seed = value
+	check_if_live()
+
+func _on_frequency_input_value_changed(value):
+	noise_resource.frequency = value
+	check_if_live()
+
+func _on_offset_x_input_value_changed(value):
+	noise_resource.offset.x = value
+	check_if_live()
+
+func _on_offset_y_input_value_changed(value):
+	noise_resource.offset.y = value
+	check_if_live()
+
+func _on_offset_z_input_value_changed(value):
+	noise_resource.offset.z = value
+	check_if_live()
+
+func _on_cellular_distance_function_input_item_selected(index):
+	noise_resource.cellular_distance_function = index
+	check_if_live()
+
+func _on_cellular_return_type_input_item_selected(index):
+	noise_resource.cellular_return_type = index
+	check_if_live()
+
+func _on_cellular_jitter_input_value_changed(value):
+	noise_resource.cellular_jitter = value
+	check_if_live()
+
+func _on_domain_warp_type_input_item_selected(index):
+	noise_resource.domain_warp_type = index
+	check_if_live()
+
+func _on_domain_warp_enabled_input_toggled(button_pressed):
+	noise_resource.domain_warp_enabled = button_pressed
+	check_if_live()
+
+func _on_domain_warp_amplitude_input_value_changed(value):
+	noise_resource.domain_warp_amplitude = value
+	check_if_live()
+
+func _on_domain_warp_frequency_input_value_changed(value):
+	noise_resource.domain_warp_frequency = value
+	check_if_live()
+
+func _on_domain_warp_fractal_type_input_item_selected(index):
+	noise_resource.domain_warp_fractal_type = index
+	check_if_live()
+
+func _on_domain_warp_fractal_gain_input_value_changed(value):
+	noise_resource.domain_warp_fractal_gain = value
+	check_if_live()
+
+func _on_domain_warp_fractal_lacunarity_input_value_changed(value):
+	noise_resource.domain_warp_fractal_lacunarity = value
+	check_if_live()
+
+func _on_domain_warp_fractal_octaves_input_value_changed(value):
+	noise_resource.domain_warp_fractal_octaves
+	check_if_live()
+
+func _on_fractal_type_input_item_selected(index):
+	noise_resource.fractal_type = index
+	check_if_live()
+
+func _on_fractal_gain_input_value_changed(value):
+	noise_resource.fractal_gain = value
+	check_if_live()
+
+func _on_fractal_lacunarity_input_value_changed(value):
+	noise_resource.fractal_lacunarity = value
+	check_if_live()
+
+func _on_fractal_octaves_input_value_changed(value):
+	noise_resource.fractal_octaves = value
+	check_if_live()
+
+func _on_fractal_ping_pong_strength_input_value_changed(value):
+	noise_resource.fractal_ping_pong_strength = value
+	check_if_live()
+
+func _on_fractal_weighted_strength_input_value_changed(value):
+	noise_resource.fractal_weighted_strength = value
+	check_if_live()
