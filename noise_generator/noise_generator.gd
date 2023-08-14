@@ -99,11 +99,11 @@ func _ready():
 
 
 func display_noise() -> void:
-	var window := get_window()
-	var new_image := Image.create(window.size.x, window.size.y, false, IMAGE_FORMAT) 
+#	var window := get_window()
+	var new_image := Image.create(IMAGE_SIZE.x, IMAGE_SIZE.y, false, IMAGE_FORMAT) 
 	
-	for x in range(0, window.size.x):
-		for y in range(0, window.size.y):
+	for x in range(0, IMAGE_SIZE.x):
+		for y in range(0, IMAGE_SIZE.y):
 			var noise_level = (noise.get_noise_2d(x, y) + 1) / 2
 			new_image.set_pixel(x, y, Color(noise_level, noise_level, noise_level, 1))
 	
@@ -204,6 +204,7 @@ func check_if_live() -> void:
 
 func _on_live_toggle_toggled(button_pressed):
 	is_live = button_pressed
+	check_if_live()
 
 
 # ---------- Input Signals

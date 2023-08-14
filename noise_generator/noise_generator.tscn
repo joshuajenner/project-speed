@@ -23,7 +23,10 @@ grow_vertical = 2
 
 [node name="NoiseDisplay" type="TextureRect" parent="CenterContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(512, 512)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
