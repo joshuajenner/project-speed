@@ -104,7 +104,8 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="LineEdit" type="LineEdit" parent="Margin/Left/Save/Margin/HBoxContainer"]
+[node name="FileInput" type="LineEdit" parent="Margin/Left/Save/Margin/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 
@@ -142,7 +143,8 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="MessageBox" type="LineEdit" parent="Margin/Left/Message/Margin/HBoxContainer"]
+[node name="MessageOutput" type="LineEdit" parent="Margin/Left/Message/Margin/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(195, 0)
 layout_mode = 2
 editable = false
@@ -174,7 +176,7 @@ alignment = 2
 [node name="Reroll" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Reroll"
+text = "Reroll All"
 
 [node name="Unlock" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
 layout_mode = 2
@@ -270,10 +272,14 @@ text = "Seed:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Seed/HBox"]
+[node name="SeedInput" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Seed/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
+rounded = true
+allow_greater = true
+allow_lesser = true
 
 [node name="Lock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Seed/HBox"]
 layout_mode = 2
@@ -291,7 +297,8 @@ text = "Frequency:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Frequency/HBox"]
+[node name="FrequencyInput" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Frequency/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -299,6 +306,58 @@ size_flags_horizontal = 8
 [node name="Lock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Frequency/HBox"]
 layout_mode = 2
 button_pressed = true
+
+[node name="Offset" type="MarginContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Offset:"
+
+[node name="VBox" type="VBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer"]
+layout_mode = 2
+text = "X:"
+
+[node name="OffsetXInput" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Lock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer2"]
+layout_mode = 2
+text = "Y:"
+
+[node name="OffsetYInput" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer3"]
+layout_mode = 2
+text = "Z:"
+
+[node name="OffsetZInput" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="Cellular" type="MarginContainer" parent="Margin/Left"]
 layout_mode = 2
@@ -383,7 +442,8 @@ text = "Jitter:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Jitter/HBox"]
+[node name="CellularJitterInput" type="SpinBox" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Jitter/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -481,7 +541,8 @@ text = "Amplitude:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Amplitude/HBox"]
+[node name="DomainWarpAmplitudeInput" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Amplitude/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -502,9 +563,10 @@ text = "Enabled:"
 [node name="HBox" type="HBoxContainer" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Enabled"]
 layout_mode = 2
 size_flags_horizontal = 8
+alignment = 2
 
-[node name="Input" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Enabled/HBox"]
-custom_minimum_size = Vector2(125, 0)
+[node name="DomainWarpEnabledInput" type="CheckBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Enabled/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 alignment = 2
@@ -525,7 +587,8 @@ text = "Fractal Gain:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/FractalGain/HBox"]
+[node name="DomainWarpFractalGainInput" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/FractalGain/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -547,7 +610,8 @@ text = "Fractal Lacunarity:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/FractalLacunarity/HBox"]
+[node name="DomainWarpFractalLacunarityInput" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/FractalLacunarity/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -569,7 +633,8 @@ text = "Fractal Octaves:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/FractalOctaves/HBox"]
+[node name="DomainWarpFractalOctavesInput" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/FractalOctaves/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -596,7 +661,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-alignment = 2
 
 [node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/FractalType/HBox"]
 layout_mode = 2
@@ -614,7 +678,8 @@ text = "Frequency:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Frequency2/HBox"]
+[node name="DomainWarpFrequencyInput" type="SpinBox" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Frequency2/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -637,10 +702,10 @@ layout_mode = 2
 size_flags_horizontal = 8
 
 [node name="DomainWarpTypeInput" type="OptionButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-alignment = 2
 
 [node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type/HBox"]
 layout_mode = 2
@@ -707,7 +772,8 @@ text = "Gain:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Gain/HBox"]
+[node name="FractalGainInput" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Gain/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -729,7 +795,8 @@ text = "Lacunarity:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Lacunarity/HBox"]
+[node name="FractalLacunarityInput" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Lacunarity/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -751,7 +818,8 @@ text = "Octaves:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Octaves/HBox"]
+[node name="FractalOctavesInput" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Octaves/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -773,7 +841,8 @@ text = "Ping Pong Strength:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/PingPongStrength/HBox"]
+[node name="FractalPingPongStrengthInput" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/PingPongStrength/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -800,7 +869,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-alignment = 2
 
 [node name="Lock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Type/HBox"]
 layout_mode = 2
@@ -818,7 +886,8 @@ text = "Weighted Strength:"
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Input" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/WeightedStrength/HBox"]
+[node name="FractalWeightedStrengthInput" type="SpinBox" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/WeightedStrength/HBox"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
