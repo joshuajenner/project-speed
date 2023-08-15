@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://i0yqxowaifoe"]
+
+[ext_resource type="PackedScene" uid="uid://clis755lpsjin" path="res://noise_generator/noise_generator.tscn" id="1_5l3n8"]
+[ext_resource type="Script" path="res://test/tilemap_generate.gd" id="1_cla2w"]
+[ext_resource type="TileSet" uid="uid://8533v8p40fff" path="res://test/test_tileset.tres" id="2_n1sin"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_cla2w")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="NoiseGenerator" parent="CanvasLayer" instance=ExtResource("1_5l3n8")]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_n1sin")
+format = 2
+layer_0/tile_data = PackedInt32Array(-131073, 131072, 2, -196608, 131072, 2, -196607, 131072, 2, -196606, 196608, 2, -262142, 196608, 0, -262143, 131072, 0, -262144, 131072, 0, -196609, 131072, 0, -196610, 65536, 0, -131074, 65536, 2, -393209, 65536, 0, -393208, 131072, 0, -393207, 131072, 0, -393206, 131072, 0, -327670, 0, 2, -327671, 0, 3, -327672, 131072, 2, -327673, 65536, 2, -262134, 196608, 2, -262135, 65536, 2, -393205, 196608, 0, -327669, 196608, 2, -655350, 65536, 0, -655349, 131072, 0, -655348, 196608, 0, -589812, 196608, 2, -589813, 131072, 2, -589814, 65536, 2, -589820, 65536, 0, -589819, 131072, 0, -589818, 196608, 0, -524282, 196608, 2, -524283, 131072, 2, -524284, 65536, 2, -393196, 65537, 2, -393195, 131073, 2, -393194, 131073, 2, -393193, 131073, 2, -393192, 196609, 2, -458729, 131073, 0, -458730, 131073, 0, -458731, 131073, 0, -458732, 65537, 0, -458728, 196609, 0, -720883, 65537, 0, -524275, 65537, 2, -720882, 196609, 0, -655346, 196609, 1, -589810, 196609, 1, -524274, 196609, 2, -655347, 65537, 1, -589811, 65537, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="noise_generated" from="CanvasLayer/NoiseGenerator" to="." method="_on_noise_generator_noise_generated"]
