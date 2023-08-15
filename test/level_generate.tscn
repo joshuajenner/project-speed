@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://boolev0i5xxss"]
+
+[ext_resource type="MeshLibrary" uid="uid://c8yv706owx6de" path="res://test/test_mesh_library.tres" id="1_wio2u"]
+[ext_resource type="Script" path="res://test/level_generate.gd" id="1_woci5"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_woci5")
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.422618, 0.906308, 0, -0.906308, 0.422618, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_wio2u")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0)
+}
+
+[node name="GridMap2" type="GridMap" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh_library = ExtResource("1_wio2u")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(2, 65535, 0, 3, 65535, 0, 4, 65535, 0, 5, 65535, 0)
+}

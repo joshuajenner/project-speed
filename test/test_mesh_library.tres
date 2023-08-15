@@ -1,0 +1,11 @@
+[gd_resource type="MeshLibrary" load_steps=2 format=3 uid="uid://c8yv706owx6de"]
+
+[ext_resource type="ArrayMesh" uid="uid://c4ib5fj1olk6m" path="res://assets/new_terrain/side_cliff.obj" id="1_8852a"]
+
+[resource]
+item/0/name = ""
+item/0/mesh = ExtResource("1_8852a")
+item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/shapes = []
+item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/navigation_layers = 1
