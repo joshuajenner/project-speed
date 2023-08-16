@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://n550rodkynb"]
+
+[ext_resource type="Script" path="res://test/generated_gridmap.gd" id="1_4vhur"]
+[ext_resource type="TileSet" uid="uid://oum5ewygmv4n" path="res://test/tileset_gridmap.tres" id="2_uximc"]
+
+[node name="GeneratedGridMap" type="Node3D"]
+script = ExtResource("1_4vhur")
+
+[node name="Level 1" type="GridMap" parent="."]
+
+[node name="Floor" type="GridMap" parent="."]
+
+[node name="TileMap" type="TileMap" parent="."]
+unique_name_in_owner = true
+tile_set = ExtResource("2_uximc")
+format = 2
