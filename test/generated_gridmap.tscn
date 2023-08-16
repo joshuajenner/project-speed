@@ -9,7 +9,7 @@ script = ExtResource("1_4vhur")
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("2_0u2b1")
-cell_size = Vector3(1, 0.5, 1)
+cell_size = Vector3(0.999, 0.5, 0.999)
 
 [node name="TileMap" type="TileMap" parent="."]
 unique_name_in_owner = true
@@ -19,3 +19,11 @@ rotation = 3.14159
 scale = Vector2(0.5, 0.5)
 tile_set = ExtResource("2_uximc")
 format = 2
+layer_0/name = "first"
+layer_1/name = "second"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
