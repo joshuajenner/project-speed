@@ -6,8 +6,8 @@ extends Node3D
 
 
 var map_size := Vector2i(128, 128)
+var mapped_cells_0: Array = []
 var mapped_cells_1: Array = []
-var mapped_cells_2: Array = []
 
 
 func _ready():
@@ -23,18 +23,17 @@ func _on_noise_generator_noise_generated(noise):
 
 
 func generate_tilemap(noise: FastNoiseLite):
+	mapped_cells_0 = []
 	mapped_cells_1 = []
-	mapped_cells_2 = []
 	tile_map.clear()
 	for x in range(-map_size.x, map_size.x):
 		for y in range(-map_size.y, map_size.y):
 			var noise_level = (noise.get_noise_2d(x, y) + 1) / 2
 			if noise_level > 0.60:
-				mapped_cells_2.append(Vector2i(x, y))
-				mapped_cells_2.append(Vector2i(x-1, y))
-				mapped_cells_2.append(Vector2i(x, y-1))
-				mapped_cells_2.append(Vector2i(x-1, y-1))
-				
+				mapped_cells_0.append(Vector2i(x, y))
+				mapped_cells_0.append(Vector2i(x-1, y))
+				mapped_cells_0.append(Vector2i(x, y-1))
+				mapped_cells_0.append(Vector2i(x-1, y-1))
 			elif noise_level > 0.40:
 				mapped_cells_1.append(Vector2i(x, y))
 				mapped_cells_1.append(Vector2i(x-1, y))
@@ -42,9 +41,8 @@ func generate_tilemap(noise: FastNoiseLite):
 				mapped_cells_1.append(Vector2i(x-1, y-1))
 				
 				
-				
-	tile_map.set_cells_terrain_connect(0, mapped_cells_1, 0, 0)
-	tile_map.set_cells_terrain_connect(1, mapped_cells_2, 0, 0)
+	tile_map.set_cells_terrain_connect(0, mapped_cells_0, 0, 0)
+	tile_map.set_cells_terrain_connect(1, mapped_cells_1, 0, 1)
 	
 
 func map_tilemap_to_gridmap() -> void:
@@ -53,18 +51,18 @@ func map_tilemap_to_gridmap() -> void:
 		for y in range(-map_size.y, map_size.y):
 			grid_map.set_cell_item(Vector3i(x, 0, y), 0, 0)
 			# First Layer
-			var cell_atlas_coords: Vector2i = tile_map.get_cell_atlas_coords(0, Vector2i(x,y))
+			var cell_atlas_coords: Vector2i = tile_map.get_cell_atlas_coords(1, Vector2i(x,y))
 			if cell_atlas_coords != Vector2i(-1, -1):
 				var item_index = get_item_from_cell_atlas(cell_atlas_coords)
 				var orientation_index = get_orientation_from_cell_atlas(cell_atlas_coords)
 				grid_map.set_cell_item(Vector3i(x, 1, y), item_index, orientation_index)
 			
 			# Second Layer
-			cell_atlas_coords = tile_map.get_cell_atlas_coords(1, Vector2i(x,y))
+			cell_atlas_coords = tile_map.get_cell_atlas_coords(0, Vector2i(x,y))
 			if cell_atlas_coords != Vector2i(-1, -1):
 				var item_index = get_item_from_cell_atlas(cell_atlas_coords)
 				var orientation_index = get_orientation_from_cell_atlas(cell_atlas_coords)
-				grid_map.set_cell_item(Vector3i(x, 1, y), item_index, orientation_index)
+				grid_map.set_cell_item(Vector3i(x, 2, y), item_index, orientation_index)
 
 
 
