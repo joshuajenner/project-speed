@@ -6,7 +6,7 @@
 [ext_resource type="Environment" uid="uid://bjd4g046m323e" path="res://environment/default_environment.tres" id="3_58450"]
 [ext_resource type="PackedScene" uid="uid://cmcq20y6k4wh4" path="res://debug/debug_menu.tscn" id="4_p8vts"]
 [ext_resource type="PackedScene" uid="uid://n550rodkynb" path="res://test/generated_gridmap.tscn" id="6_athlx"]
-[ext_resource type="MeshLibrary" uid="uid://c8yv706owx6de" path="res://test/test_mesh_library.tres" id="6_hlphv"]
+[ext_resource type="MeshLibrary" uid="uid://dyswvei05m3gh" path="res://test/mesh_library_gridmap.tres" id="6_jf8ol"]
 [ext_resource type="PackedScene" uid="uid://clis755lpsjin" path="res://noise_generator/noise_generator.tscn" id="7_omawm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k2sak"]
@@ -453,8 +453,9 @@ environment = ExtResource("3_58450")
 [node name="DebugMenu" parent="." instance=ExtResource("4_p8vts")]
 
 [node name="GridMap" type="GridMap" parent="."]
-mesh_library = ExtResource("6_hlphv")
-cell_size = Vector3(1, 1, 1)
+mesh_library = ExtResource("6_jf8ol")
+cell_size = Vector3(1, 0.5, 1)
+metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="GeneratedGridMap" parent="." instance=ExtResource("6_athlx")]
 

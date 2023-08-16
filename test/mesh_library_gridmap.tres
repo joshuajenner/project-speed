@@ -1,0 +1,32 @@
+[gd_resource type="MeshLibrary" load_steps=5 format=3 uid="uid://dyswvei05m3gh"]
+
+[ext_resource type="ArrayMesh" uid="uid://luhmsmd26g8h" path="res://assets/new_terrain/floor.obj" id="1_1if0b"]
+[ext_resource type="ArrayMesh" uid="uid://0qqya1rfu2rv" path="res://assets/new_terrain/side_cliff_pos_z.obj" id="2_golhh"]
+[ext_resource type="ArrayMesh" uid="uid://bkeja0rsjk4vh" path="res://assets/new_terrain/side_corner_pos_z_neg_x.obj" id="3_i72vy"]
+[ext_resource type="ArrayMesh" uid="uid://csxrvlftaf3ia" path="res://assets/new_terrain/side_inner_pos_z_neg_x.obj" id="4_k4kx2"]
+
+[resource]
+item/0/name = ""
+item/0/mesh = ExtResource("1_1if0b")
+item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/shapes = []
+item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/navigation_layers = 1
+item/1/name = ""
+item/1/mesh = ExtResource("2_golhh")
+item/1/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/shapes = []
+item/1/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/navigation_layers = 1
+item/2/name = ""
+item/2/mesh = ExtResource("3_i72vy")
+item/2/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/2/shapes = []
+item/2/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/2/navigation_layers = 1
+item/3/name = ""
+item/3/mesh = ExtResource("4_k4kx2")
+item/3/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/3/shapes = []
+item/3/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/3/navigation_layers = 1

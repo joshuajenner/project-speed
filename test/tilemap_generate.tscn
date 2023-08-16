@@ -12,6 +12,7 @@ script = ExtResource("1_cla2w")
 [node name="NoiseGenerator" parent="CanvasLayer" instance=ExtResource("1_5l3n8")]
 
 [node name="TileMap" type="TileMap" parent="."]
+scale = Vector2(0.5, 0.5)
 tile_set = ExtResource("2_n1sin")
 format = 2
 layer_0/name = "Water"
