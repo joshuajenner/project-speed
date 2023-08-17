@@ -2,6 +2,8 @@ extends Control
 
 signal noise_generated(noise: FastNoiseLite)
 
+@onready var file_dialog = %FileDialog
+
 @onready var file_input: LineEdit = %FileInput
 @onready var message_output: LineEdit = %MessageOutput
 
@@ -291,3 +293,45 @@ func _on_fractal_ping_pong_strength_input_value_changed(value):
 func _on_fractal_weighted_strength_input_value_changed(value):
 	noise_resource.fractal_weighted_strength = value
 	check_if_live()
+
+
+# ---------- Button Signals
+
+func _on_reset_values_pressed():
+	noise_resource = NoiseResource.new()
+	load_values_from_resource()
+	check_if_live()
+
+
+func _on_save_resource_pressed() -> void:
+	file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
+	
+	
+	
+#	if file_input.text == "":
+#		message_output.text = "Error: File name empty"
+#	else:
+#		var file_path: String = "res://noise/" + file_input.text + ".tres"
+#		var error = ResourceSaver.save(noise_resource, file_path)
+#		message_output.text = get_error_message(error)
+
+
+func get_error_message(error: Error) -> String:
+	if error == OK:
+		return "Saved Successfully"
+	else:
+		return "Error: " + str(error)
+
+
+func _on_load_resource_pressed():
+	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	file_dialog.visible = true
+
+
+func _on_file_dialog_file_selected(path):
+	var loaded_noise_resource = ResourceLoader.load(path)
+	print(loaded_noise_resource)
+	if loaded_noise_resource is NoiseResource:
+		print("right")
+	else:
+		print("wrong")
