@@ -302,36 +302,35 @@ func _on_reset_values_pressed():
 	load_values_from_resource()
 	check_if_live()
 
-
 func _on_save_resource_pressed() -> void:
 	file_dialog.file_mode = FileDialog.FILE_MODE_SAVE_FILE
-	
-	
-	
-#	if file_input.text == "":
-#		message_output.text = "Error: File name empty"
-#	else:
-#		var file_path: String = "res://noise/" + file_input.text + ".tres"
-#		var error = ResourceSaver.save(noise_resource, file_path)
-#		message_output.text = get_error_message(error)
-
-
-func get_error_message(error: Error) -> String:
-	if error == OK:
-		return "Saved Successfully"
-	else:
-		return "Error: " + str(error)
-
+	file_dialog.visible = true
 
 func _on_load_resource_pressed():
 	file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	file_dialog.visible = true
 
-
 func _on_file_dialog_file_selected(path):
+	if file_dialog.file_mode == FileDialog.FILE_MODE_OPEN_FILE:
+		load_noise_resource_file(path)
+	elif file_dialog.file_mode == FileDialog.FILE_MODE_SAVE_FILE:
+		save_noise_resource_file(path)
+
+func load_noise_resource_file(path: String) -> void:
 	var loaded_noise_resource = ResourceLoader.load(path)
-	print(loaded_noise_resource)
 	if loaded_noise_resource is NoiseResource:
-		print("right")
+		noise_resource = loaded_noise_resource
+		load_values_from_resource()
+		message_output.text = "Load Success"
 	else:
-		print("wrong")
+		message_output.text = "Error: Wrong Resource Type"
+
+func save_noise_resource_file(path: String) -> void:
+		var error = ResourceSaver.save(noise_resource, path)
+		message_output.text = get_error_message(error)
+
+func get_error_message(error: Error) -> String:
+	if error == OK:
+		return "Saved Successfully"
+	else:
+		return "Error: Save Failed"

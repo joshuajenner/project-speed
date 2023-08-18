@@ -999,6 +999,7 @@ button_pressed = true
 unique_name_in_owner = true
 initial_position = 2
 size = Vector2i(500, 400)
+filters = PackedStringArray("*.tres, *.res")
 
 [connection signal="pressed" from="Margin/Left/Title/Margin/HBoxContainer/ResetValues" to="." method="_on_reset_values_pressed"]
 [connection signal="pressed" from="Margin/Left/Title/Margin/HBoxContainer/GenerateButton" to="." method="_on_generate_button_pressed"]
