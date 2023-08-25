@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://clis755lpsjin"]
+[gd_scene load_steps=4 format=3 uid="uid://clis755lpsjin"]
 
 [ext_resource type="Script" path="res://noise_generator/noise_generator.gd" id="1_ea8kf"]
 [ext_resource type="Theme" uid="uid://l2h0pvttlllc" path="res://noise_generator/noise_generator_theme.tres" id="1_t24wn"]
+[ext_resource type="PackedScene" uid="uid://bvbwtqhean2yf" path="res://noise_generator/vector3_input.tscn" id="3_w7vva"]
 
 [node name="NoiseGenerator" type="Control"]
 layout_mode = 3
@@ -101,11 +102,6 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="FileInput" type="LineEdit" parent="Margin/Left/Save/Margin/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(125, 0)
-layout_mode = 2
-
 [node name="LoadResource" type="Button" parent="Margin/Left/Save/Margin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
@@ -173,17 +169,17 @@ alignment = 2
 [node name="Reroll" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Reroll All"
+text = "Randomize"
 
 [node name="Unlock" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Unlock All"
+text = "Unlock"
 
 [node name="Lock" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Lock All"
+text = "Lock"
 
 [node name="General" type="MarginContainer" parent="Margin/Left"]
 layout_mode = 2
@@ -216,17 +212,17 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="Reroll" type="Button" parent="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="GeneralReroll" type="Button" parent="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Reroll"
+text = "Randomize"
 
-[node name="Unlock" type="Button" parent="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="GeneralUnlock" type="Button" parent="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Unlock"
 
-[node name="Lock" type="Button" parent="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="GeneralLock" type="Button" parent="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Lock"
@@ -254,7 +250,8 @@ custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 fit_to_longest_item = false
 
-[node name="Lock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/NoiseType/HBox"]
+[node name="NoiseTypeInputLock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/NoiseType/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -280,7 +277,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Seed/HBox"]
+[node name="SeedInputLock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Seed/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -305,7 +303,8 @@ step = 0.01
 allow_greater = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Frequency/HBox"]
+[node name="FrequencyInputLock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Frequency/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -315,63 +314,22 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset"]
 layout_mode = 2
 size_flags_horizontal = 0
+size_flags_vertical = 0
 text = "Offset:"
 
-[node name="VBox" type="VBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset"]
+[node name="HBox" type="HBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer"]
-layout_mode = 2
-text = "X:"
-
-[node name="OffsetXInput" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer"]
+[node name="OffsetInput" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/HBox" instance=ExtResource("3_w7vva")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 8
-rounded = true
-allow_greater = true
-allow_lesser = true
-alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer"]
+[node name="OffsetInputLock" type="CheckButton" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 0
 button_pressed = true
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox"]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer2"]
-layout_mode = 2
-text = "Y:"
-
-[node name="OffsetYInput" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-rounded = true
-allow_greater = true
-allow_lesser = true
-alignment = 2
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox"]
-layout_mode = 2
-
-[node name="Label3" type="Label" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer3"]
-layout_mode = 2
-text = "Z:"
-
-[node name="OffsetZInput" type="SpinBox" parent="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer3"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 8
-rounded = true
-allow_greater = true
-allow_lesser = true
-alignment = 2
 
 [node name="Cellular" type="MarginContainer" parent="Margin/Left"]
 layout_mode = 2
@@ -406,7 +364,7 @@ alignment = 2
 [node name="Reroll" type="Button" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Reroll"
+text = "Randomize"
 
 [node name="Unlock" type="Button" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer"]
 layout_mode = 2
@@ -532,7 +490,7 @@ alignment = 2
 [node name="Reroll" type="Button" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Reroll"
+text = "Randomize"
 
 [node name="Unlock" type="Button" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer"]
 layout_mode = 2
@@ -678,7 +636,7 @@ alignment = 2
 [node name="Reroll" type="Button" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Reroll"
+text = "Randomize"
 
 [node name="Unlock" type="Button" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer"]
 layout_mode = 2
@@ -827,7 +785,7 @@ alignment = 2
 [node name="Reroll" type="Button" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Reroll"
+text = "Randomize"
 
 [node name="Unlock" type="Button" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer"]
 layout_mode = 2
@@ -1006,12 +964,11 @@ filters = PackedStringArray("*.tres, *.res")
 [connection signal="toggled" from="Margin/Left/Title/Margin/HBoxContainer/LiveToggle" to="." method="_on_live_toggle_toggled"]
 [connection signal="pressed" from="Margin/Left/Save/Margin/HBoxContainer/LoadResource" to="." method="_on_load_resource_pressed"]
 [connection signal="pressed" from="Margin/Left/Save/Margin/HBoxContainer/SaveResource" to="." method="_on_save_resource_pressed"]
+[connection signal="pressed" from="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/GeneralReroll" to="." method="_on_general_reroll_pressed"]
 [connection signal="item_selected" from="Margin/Left/General/MarginContainer/VBoxContainer/NoiseType/HBox/NoiseTypeInput" to="." method="_on_noise_type_input_item_selected"]
 [connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Seed/HBox/SeedInput" to="." method="_on_seed_input_value_changed"]
 [connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Frequency/HBox/FrequencyInput" to="." method="_on_frequency_input_value_changed"]
-[connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer/OffsetXInput" to="." method="_on_offset_x_input_value_changed"]
-[connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer2/OffsetYInput" to="." method="_on_offset_y_input_value_changed"]
-[connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Offset/VBox/HBoxContainer3/OffsetZInput" to="." method="_on_offset_z_input_value_changed"]
+[connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Offset/HBox/OffsetInput" to="." method="_on_offset_input_value_changed"]
 [connection signal="item_selected" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/DistanceFunction/HBox/CellularDistanceFunctionInput" to="." method="_on_cellular_distance_function_input_item_selected"]
 [connection signal="item_selected" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/ReturnType/HBox/CellularReturnTypeInput" to="." method="_on_cellular_return_type_input_item_selected"]
 [connection signal="value_changed" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/Jitter/HBox/CellularJitterInput" to="." method="_on_cellular_jitter_input_value_changed"]

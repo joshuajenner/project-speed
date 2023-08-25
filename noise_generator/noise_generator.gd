@@ -4,15 +4,15 @@ signal noise_generated(noise: FastNoiseLite)
 
 @onready var file_dialog = %FileDialog
 
-@onready var file_input: LineEdit = %FileInput
 @onready var message_output: LineEdit = %MessageOutput
 
 @onready var noise_type_input: OptionButton = %NoiseTypeInput
 @onready var seed_input: SpinBox = %SeedInput
 @onready var frequency_input: SpinBox = %FrequencyInput
-@onready var offset_x_input: SpinBox = %OffsetXInput
-@onready var offset_y_input: SpinBox = %OffsetYInput
-@onready var offset_z_input: SpinBox = %OffsetZInput
+@onready var offset_input: Vector3Input = %OffsetInput
+#@onready var offset_x_input: SpinBox = %OffsetXInput
+#@onready var offset_y_input: SpinBox = %OffsetYInput
+#@onready var offset_z_input: SpinBox = %OffsetZInput
 
 @onready var cellular_distance_function_input: OptionButton = %CellularDistanceFunctionInput
 @onready var cellular_jitter_input: SpinBox = %CellularJitterInput
@@ -35,6 +35,12 @@ signal noise_generated(noise: FastNoiseLite)
 @onready var fractal_weighted_strength_input: SpinBox = %FractalWeightedStrengthInput
 
 
+@onready var general_inputs: Array[Dictionary] = [
+	{"input": noise_type_input, "lock": %NoiseTypeInputLock},
+	{"input": seed_input, "lock": %SeedInputLock},
+	{"input": frequency_input, "lock": %FrequencyInputLock},
+	{"input": offset_input, "lock": %OffsetInputLock}
+]
 
 
 
@@ -101,7 +107,6 @@ func _ready():
 func generate_noise() -> void:
 	noise_generated.emit(noise)
 
-
 func set_noise_values() -> void:
 	noise.noise_type = noise_resource.noise_type
 	noise.seed = noise_resource.seed
@@ -132,9 +137,10 @@ func load_values_from_resource() -> void:
 	noise_type_input.select(noise_resource.noise_type)
 	seed_input.value = noise_resource.seed
 	frequency_input.value = noise_resource.frequency
-	offset_x_input.value = noise_resource.offset.x
-	offset_y_input.value = noise_resource.offset.y
-	offset_z_input.value = noise_resource.offset.z
+	offset_input.set_vector3(noise_resource.offset)
+#	offset_x_input.value = noise_resource.offset.x
+#	offset_y_input.value = noise_resource.offset.y
+#	offset_z_input.value = noise_resource.offset.z
 	
 	cellular_distance_function_input.select(noise_resource.cellular_distance_function)
 	cellular_jitter_input.value = noise_resource.cellular_jitter
@@ -173,15 +179,6 @@ func _on_generate_button_pressed():
 	set_noise_values()
 	generate_noise()
 
-#func _on_noise_display_gui_input(event):
-#	print(event)
-#	if event is InputEventMouseButton:
-#		if event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
-#			print("down")
-#		elif event.button_index == MOUSE_BUTTON_LEFT and not event.is_pressed():
-#			print("up")
-
-
 func _on_noise_display_mouse_entered():
 	is_mouse_over_noise_display = true
 
@@ -214,16 +211,8 @@ func _on_frequency_input_value_changed(value):
 	noise_resource.frequency = value
 	check_if_live()
 
-func _on_offset_x_input_value_changed(value):
-	noise_resource.offset.x = value
-	check_if_live()
-
-func _on_offset_y_input_value_changed(value):
-	noise_resource.offset.y = value
-	check_if_live()
-
-func _on_offset_z_input_value_changed(value):
-	noise_resource.offset.z = value
+func _on_offset_input_value_changed(value):
+	noise_resource.offset = value
 	check_if_live()
 
 func _on_cellular_distance_function_input_item_selected(index):
@@ -267,7 +256,7 @@ func _on_domain_warp_fractal_lacunarity_input_value_changed(value):
 	check_if_live()
 
 func _on_domain_warp_fractal_octaves_input_value_changed(value):
-	noise_resource.domain_warp_fractal_octaves
+	noise_resource.domain_warp_fractal_octaves = value
 	check_if_live()
 
 func _on_fractal_type_input_item_selected(index):
@@ -334,3 +323,23 @@ func get_error_message(error: Error) -> String:
 		return "Saved Successfully"
 	else:
 		return "Error: Save Failed"
+
+
+
+func _on_general_reroll_pressed():
+	randomize_input_group(general_inputs)
+
+
+func randomize_input_group(input_group: Array[Dictionary]) -> void:
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	
+	for input_set in input_group:
+		if not input_set.lock.disabled:
+			var input_control = input_set.input
+			if input_set.input is SpinBox:
+				input_control.value = rng.randf_range(input_control.min_value, input_control.max_value)
+			elif input_set.input is OptionButton:
+				input_control.select(rng.randi_range(0, input_control.item_count-1))
+			elif input_set.input is Vector3Input:
+				input_control.randomize_values()
