@@ -166,17 +166,17 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="Reroll" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
+[node name="AllReroll" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Randomize"
 
-[node name="Unlock" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
+[node name="AllUnlock" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Unlock"
 
-[node name="Lock" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
+[node name="AllLock" type="Button" parent="Margin/Left/AllSections/Margin/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Lock"
@@ -361,17 +361,17 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="Reroll" type="Button" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer"]
+[node name="CellularReroll" type="Button" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Randomize"
 
-[node name="Unlock" type="Button" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer"]
+[node name="CellularUnlock" type="Button" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Unlock"
 
-[node name="Lock" type="Button" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer"]
+[node name="CellularLock" type="Button" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Lock"
@@ -398,7 +398,8 @@ custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Lock" type="CheckButton" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/DistanceFunction/HBox"]
+[node name="CellularDistanceFunctionInputLock" type="CheckButton" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/DistanceFunction/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -420,7 +421,8 @@ custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Lock" type="CheckButton" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/ReturnType/HBox"]
+[node name="CellularReturnTypeInputLock" type="CheckButton" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/ReturnType/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -446,7 +448,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Jitter/HBox"]
+[node name="CellularJitterInputLock" type="CheckButton" parent="Margin/Left/Cellular/MarginContainer/VBoxContainer/Jitter/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -487,46 +490,23 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="Reroll" type="Button" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer"]
+[node name="DomainWarpReroll" type="Button" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Randomize"
 
-[node name="Unlock" type="Button" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer"]
+[node name="DomainWarpUnlock" type="Button" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Unlock"
 
-[node name="Lock" type="Button" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer"]
+[node name="DomainWarpLock" type="Button" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Lock"
 
 [node name="HSeparator3" type="HSeparator" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer"]
 layout_mode = 2
-
-[node name="Type" type="MarginContainer" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_top = 5
-
-[node name="Label" type="Label" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type"]
-layout_mode = 2
-size_flags_horizontal = 0
-text = "Type:"
-
-[node name="HBox" type="HBoxContainer" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="DomainWarpTypeInput" type="OptionButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type/HBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(125, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type/HBox"]
-layout_mode = 2
-button_pressed = true
 
 [node name="Enabled" type="MarginContainer" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -547,7 +527,32 @@ layout_mode = 2
 size_flags_horizontal = 8
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Enabled/HBox"]
+[node name="DomainWarpEnabledInputLock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Enabled/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+
+[node name="Type" type="MarginContainer" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 5
+
+[node name="Label" type="Label" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Type:"
+
+[node name="HBox" type="HBoxContainer" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="DomainWarpTypeInput" type="OptionButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="DomainWarpTypeInputLock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -573,7 +578,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Amplitude/HBox"]
+[node name="DomainWarpAmplitudeInputLock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Amplitude/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -599,7 +605,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Frequency/HBox"]
+[node name="DomainWarpFrequencyInputLock" type="CheckButton" parent="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Frequency/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -633,17 +640,17 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="Reroll" type="Button" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer"]
+[node name="DomainWarpFractalReroll" type="Button" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Randomize"
 
-[node name="Unlock" type="Button" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer"]
+[node name="DomainWarpFractalUnlock" type="Button" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Unlock"
 
-[node name="Lock" type="Button" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer"]
+[node name="DomainWarpFractalLock" type="Button" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Lock"
@@ -670,7 +677,8 @@ custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalType/HBox"]
+[node name="DomainWarpFractalTypeInputLock" type="CheckButton" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalType/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -696,7 +704,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalGain/HBox"]
+[node name="DomainWarpFractalGainInputLock" type="CheckButton" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalGain/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -722,7 +731,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalLacunarity/HBox"]
+[node name="DomainWarpFractalLacunarityInputLock" type="CheckButton" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalLacunarity/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -748,7 +758,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalOctaves/HBox"]
+[node name="DomainWarpFractalOctavesInputLock" type="CheckButton" parent="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalOctaves/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -782,17 +793,17 @@ size_flags_horizontal = 8
 theme_override_constants/separation = 5
 alignment = 2
 
-[node name="Reroll" type="Button" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer"]
+[node name="FractalReroll" type="Button" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Randomize"
 
-[node name="Unlock" type="Button" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer"]
+[node name="FractalUnlock" type="Button" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Unlock"
 
-[node name="Lock" type="Button" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer"]
+[node name="FractalLock" type="Button" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Lock"
@@ -819,7 +830,8 @@ custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Type/HBox"]
+[node name="FractalTypeInputLock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Type/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -845,7 +857,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Gain/HBox"]
+[node name="FractalGainInputLock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Gain/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -871,7 +884,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Lacunarity/HBox"]
+[node name="FractalLacunarityInputLock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Lacunarity/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -897,7 +911,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Octaves/HBox"]
+[node name="FractalOctavesInputLock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/Octaves/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -923,7 +938,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/PingPongStrength/HBox"]
+[node name="FractalPingPongStrengthInputLock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/PingPongStrength/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -949,7 +965,8 @@ allow_greater = true
 allow_lesser = true
 alignment = 2
 
-[node name="Lock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/WeightedStrength/HBox"]
+[node name="FractalWeightedStrengthInputLock" type="CheckButton" parent="Margin/Right/Fractal/MarginContainer/VBoxContainer/WeightedStrength/HBox"]
+unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
 
@@ -964,22 +981,39 @@ filters = PackedStringArray("*.tres, *.res")
 [connection signal="toggled" from="Margin/Left/Title/Margin/HBoxContainer/LiveToggle" to="." method="_on_live_toggle_toggled"]
 [connection signal="pressed" from="Margin/Left/Save/Margin/HBoxContainer/LoadResource" to="." method="_on_load_resource_pressed"]
 [connection signal="pressed" from="Margin/Left/Save/Margin/HBoxContainer/SaveResource" to="." method="_on_save_resource_pressed"]
+[connection signal="pressed" from="Margin/Left/AllSections/Margin/HBoxContainer/AllReroll" to="." method="_on_all_reroll_pressed"]
+[connection signal="pressed" from="Margin/Left/AllSections/Margin/HBoxContainer/AllUnlock" to="." method="_on_all_unlock_pressed"]
+[connection signal="pressed" from="Margin/Left/AllSections/Margin/HBoxContainer/AllLock" to="." method="_on_all_lock_pressed"]
 [connection signal="pressed" from="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/GeneralReroll" to="." method="_on_general_reroll_pressed"]
+[connection signal="pressed" from="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/GeneralUnlock" to="." method="_on_general_unlock_pressed"]
+[connection signal="pressed" from="Margin/Left/General/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/GeneralLock" to="." method="_on_general_lock_pressed"]
 [connection signal="item_selected" from="Margin/Left/General/MarginContainer/VBoxContainer/NoiseType/HBox/NoiseTypeInput" to="." method="_on_noise_type_input_item_selected"]
 [connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Seed/HBox/SeedInput" to="." method="_on_seed_input_value_changed"]
 [connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Frequency/HBox/FrequencyInput" to="." method="_on_frequency_input_value_changed"]
 [connection signal="value_changed" from="Margin/Left/General/MarginContainer/VBoxContainer/Offset/HBox/OffsetInput" to="." method="_on_offset_input_value_changed"]
+[connection signal="pressed" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer/CellularReroll" to="." method="_on_cellular_reroll_pressed"]
+[connection signal="pressed" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer/CellularUnlock" to="." method="_on_cellular_unlock_pressed"]
+[connection signal="pressed" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/Cellular/HBoxContainer/CellularLock" to="." method="_on_cellular_lock_pressed"]
 [connection signal="item_selected" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/DistanceFunction/HBox/CellularDistanceFunctionInput" to="." method="_on_cellular_distance_function_input_item_selected"]
 [connection signal="item_selected" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/ReturnType/HBox/CellularReturnTypeInput" to="." method="_on_cellular_return_type_input_item_selected"]
 [connection signal="value_changed" from="Margin/Left/Cellular/MarginContainer/VBoxContainer/Jitter/HBox/CellularJitterInput" to="." method="_on_cellular_jitter_input_value_changed"]
-[connection signal="item_selected" from="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type/HBox/DomainWarpTypeInput" to="." method="_on_domain_warp_type_input_item_selected"]
+[connection signal="pressed" from="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer/DomainWarpReroll" to="." method="_on_domain_warp_reroll_pressed"]
+[connection signal="pressed" from="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer/DomainWarpUnlock" to="." method="_on_domain_warp_unlock_pressed"]
+[connection signal="pressed" from="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/DomainWarp/HBoxContainer/DomainWarpLock" to="." method="_on_domain_warp_lock_pressed"]
 [connection signal="toggled" from="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Enabled/HBox/DomainWarpEnabledInput" to="." method="_on_domain_warp_enabled_input_toggled"]
+[connection signal="item_selected" from="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Type/HBox/DomainWarpTypeInput" to="." method="_on_domain_warp_type_input_item_selected"]
 [connection signal="value_changed" from="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Amplitude/HBox/DomainWarpAmplitudeInput" to="." method="_on_domain_warp_amplitude_input_value_changed"]
 [connection signal="value_changed" from="Margin/Right/DomainWarp/MarginContainer/VBoxContainer/Frequency/HBox/DomainWarpFrequencyInput" to="." method="_on_domain_warp_frequency_input_value_changed"]
+[connection signal="pressed" from="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer/DomainWarpFractalReroll" to="." method="_on_domain_warp_fractal_reroll_pressed"]
+[connection signal="pressed" from="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer/DomainWarpFractalUnlock" to="." method="_on_domain_warp_fractal_unlock_pressed"]
+[connection signal="pressed" from="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/DomainWarpFractal/HBoxContainer/DomainWarpFractalLock" to="." method="_on_domain_warp_fractal_lock_pressed"]
 [connection signal="item_selected" from="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalType/HBox/DomainWarpFractalTypeInput" to="." method="_on_domain_warp_fractal_type_input_item_selected"]
 [connection signal="value_changed" from="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalGain/HBox/DomainWarpFractalGainInput" to="." method="_on_domain_warp_fractal_gain_input_value_changed"]
 [connection signal="value_changed" from="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalLacunarity/HBox/DomainWarpFractalLacunarityInput" to="." method="_on_domain_warp_fractal_lacunarity_input_value_changed"]
 [connection signal="value_changed" from="Margin/Right/DomainWarpFractal/MarginContainer/VBoxContainer/FractalOctaves/HBox/DomainWarpFractalOctavesInput" to="." method="_on_domain_warp_fractal_octaves_input_value_changed"]
+[connection signal="pressed" from="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer/FractalReroll" to="." method="_on_fractal_reroll_pressed"]
+[connection signal="pressed" from="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer/FractalUnlock" to="." method="_on_fractal_unlock_pressed"]
+[connection signal="pressed" from="Margin/Right/Fractal/MarginContainer/VBoxContainer/Fractal/HBoxContainer/FractalLock" to="." method="_on_fractal_lock_pressed"]
 [connection signal="item_selected" from="Margin/Right/Fractal/MarginContainer/VBoxContainer/Type/HBox/FractalTypeInput" to="." method="_on_fractal_type_input_item_selected"]
 [connection signal="value_changed" from="Margin/Right/Fractal/MarginContainer/VBoxContainer/Gain/HBox/FractalGainInput" to="." method="_on_fractal_gain_input_value_changed"]
 [connection signal="value_changed" from="Margin/Right/Fractal/MarginContainer/VBoxContainer/Lacunarity/HBox/FractalLacunarityInput" to="." method="_on_fractal_lacunarity_input_value_changed"]

@@ -9,6 +9,7 @@ script = ExtResource("1_legfd")
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
@@ -17,6 +18,7 @@ text = "X:"
 
 [node name="OffsetXInput" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 rounded = true
@@ -25,6 +27,7 @@ allow_lesser = true
 alignment = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer2"]
@@ -33,6 +36,7 @@ text = "Y:"
 
 [node name="OffsetYInput" type="SpinBox" parent="VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 rounded = true
@@ -41,6 +45,7 @@ allow_lesser = true
 alignment = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer3"]
@@ -49,6 +54,7 @@ text = "Z:"
 
 [node name="OffsetZInput" type="SpinBox" parent="VBoxContainer/HBoxContainer3"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 rounded = true

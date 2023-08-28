@@ -7,8 +7,8 @@ signal value_changed(value: Vector3)
 @onready var y_input: SpinBox = %OffsetYInput
 @onready var z_input: SpinBox = %OffsetZInput
 
-var min_value: int = -2147483648
-var max_value: int = 2147483647
+var min_value: int = -99999999
+var max_value: int = 99999999
 
 
 @export var value: Vector3 = Vector3.ZERO
@@ -18,11 +18,9 @@ var max_value: int = 2147483647
 func randomize_values() -> void:
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	print(rng.randi_range(min_value, max_value))
 	x_input.value = rng.randi_range(min_value, max_value)
 	y_input.value = rng.randi_range(min_value, max_value)
 	z_input.value = rng.randi_range(min_value, max_value)
-
 
 func set_values(x: int, y: int, z: int) -> void:
 	x_input.value = x
@@ -34,7 +32,6 @@ func set_vector3(vector: Vector3) -> void:
 	y_input.value = vector.y
 	z_input.value = vector.z
 
-
 func disable() -> void:
 	x_input.editable = false
 	y_input.editable = false
@@ -44,7 +41,6 @@ func enable() -> void:
 	x_input.editable = true
 	y_input.editable = true
 	z_input.editable = true
-
 
 func _on_offset_x_input_value_changed(new_value: float):
 	value.x = new_value

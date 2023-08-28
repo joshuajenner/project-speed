@@ -3,29 +3,26 @@ extends Control
 signal noise_generated(noise: FastNoiseLite)
 
 @onready var file_dialog = %FileDialog
-
 @onready var message_output: LineEdit = %MessageOutput
 
 @onready var noise_type_input: OptionButton = %NoiseTypeInput
 @onready var seed_input: SpinBox = %SeedInput
 @onready var frequency_input: SpinBox = %FrequencyInput
 @onready var offset_input: Vector3Input = %OffsetInput
-#@onready var offset_x_input: SpinBox = %OffsetXInput
-#@onready var offset_y_input: SpinBox = %OffsetYInput
-#@onready var offset_z_input: SpinBox = %OffsetZInput
 
 @onready var cellular_distance_function_input: OptionButton = %CellularDistanceFunctionInput
-@onready var cellular_jitter_input: SpinBox = %CellularJitterInput
 @onready var cellular_return_type_input: OptionButton = %CellularReturnTypeInput
+@onready var cellular_jitter_input: SpinBox = %CellularJitterInput
 
-@onready var domain_warp_amplitude_input: SpinBox = %DomainWarpAmplitudeInput
 @onready var domain_warp_enabled_input: CheckBox = %DomainWarpEnabledInput
+@onready var domain_warp_type_input: OptionButton = %DomainWarpTypeInput
+@onready var domain_warp_amplitude_input: SpinBox = %DomainWarpAmplitudeInput
+@onready var domain_warp_frequency_input: SpinBox = %DomainWarpFrequencyInput
+
 @onready var domain_warp_fractal_gain_input: SpinBox = %DomainWarpFractalGainInput
 @onready var domain_warp_fractal_lacunarity_input: SpinBox = %DomainWarpFractalLacunarityInput
 @onready var domain_warp_fractal_octaves_input: SpinBox = %DomainWarpFractalOctavesInput
 @onready var domain_warp_fractal_type_input: OptionButton = %DomainWarpFractalTypeInput
-@onready var domain_warp_frequency_input: SpinBox = %DomainWarpFrequencyInput
-@onready var domain_warp_type_input: OptionButton = %DomainWarpTypeInput
 
 @onready var fractal_gain_input: SpinBox = %FractalGainInput
 @onready var fractal_lacunarity_input: SpinBox = %FractalLacunarityInput
@@ -41,7 +38,31 @@ signal noise_generated(noise: FastNoiseLite)
 	{"input": frequency_input, "lock": %FrequencyInputLock},
 	{"input": offset_input, "lock": %OffsetInputLock}
 ]
-
+@onready var cellular_inputs: Array[Dictionary] = [
+	{"input": cellular_distance_function_input, "lock": %CellularDistanceFunctionInputLock},
+	{"input": cellular_return_type_input, "lock": %CellularReturnTypeInputLock},
+	{"input": cellular_jitter_input, "lock": %CellularJitterInputLock},
+]
+@onready var domain_warp_inputs: Array[Dictionary] = [
+	{"input": domain_warp_enabled_input, "lock": %DomainWarpEnabledInputLock},
+	{"input": domain_warp_type_input, "lock": %DomainWarpTypeInputLock},
+	{"input": domain_warp_amplitude_input, "lock": %DomainWarpAmplitudeInputLock},
+	{"input": domain_warp_frequency_input, "lock": %DomainWarpFrequencyInputLock},
+]
+@onready var domain_warp_fractal_inputs: Array[Dictionary] = [
+	{"input": domain_warp_fractal_type_input, "lock": %DomainWarpFractalTypeInputLock},
+	{"input": domain_warp_fractal_gain_input, "lock": %DomainWarpFractalGainInputLock},
+	{"input": domain_warp_fractal_lacunarity_input, "lock": %DomainWarpFractalLacunarityInputLock},
+	{"input": domain_warp_fractal_octaves_input, "lock": %DomainWarpFractalOctavesInputLock},
+]
+@onready var fractal_inputs: Array[Dictionary] = [
+	{"input": fractal_type_input, "lock": %FractalTypeInputLock},
+	{"input": fractal_gain_input, "lock": %FractalGainInputLock},
+	{"input": fractal_lacunarity_input, "lock": %FractalLacunarityInputLock},
+	{"input": fractal_octaves_input, "lock": %FractalOctavesInputLock},
+	{"input": fractal_ping_pong_strength_input, "lock": %FractalPingPongStrengthInputLock},
+	{"input": fractal_weighted_strength_input, "lock": %FractalWeightedStrengthInputLock},
+]
 
 
 const noise_types: Array = [
@@ -138,9 +159,6 @@ func load_values_from_resource() -> void:
 	seed_input.value = noise_resource.seed
 	frequency_input.value = noise_resource.frequency
 	offset_input.set_vector3(noise_resource.offset)
-#	offset_x_input.value = noise_resource.offset.x
-#	offset_y_input.value = noise_resource.offset.y
-#	offset_z_input.value = noise_resource.offset.z
 	
 	cellular_distance_function_input.select(noise_resource.cellular_distance_function)
 	cellular_jitter_input.value = noise_resource.cellular_jitter
@@ -325,21 +343,94 @@ func get_error_message(error: Error) -> String:
 		return "Error: Save Failed"
 
 
-
-func _on_general_reroll_pressed():
-	randomize_input_group(general_inputs)
-
+func toggle_input_group(input_group: Array[Dictionary], is_unlocked: bool) -> void:
+	for input_set in input_group:
+		input_set.lock.button_pressed = is_unlocked
 
 func randomize_input_group(input_group: Array[Dictionary]) -> void:
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
 	
 	for input_set in input_group:
-		if not input_set.lock.disabled:
+		if input_set.lock.button_pressed:
 			var input_control = input_set.input
 			if input_set.input is SpinBox:
 				input_control.value = rng.randf_range(input_control.min_value, input_control.max_value)
 			elif input_set.input is OptionButton:
 				input_control.select(rng.randi_range(0, input_control.item_count-1))
+			elif input_set.input is CheckBox:
+				input_control.button_pressed = randi() % 2 == 0
 			elif input_set.input is Vector3Input:
 				input_control.randomize_values()
+
+
+func _on_general_reroll_pressed():
+	randomize_input_group(general_inputs)
+
+func _on_general_unlock_pressed():
+	toggle_input_group(general_inputs, true)
+
+func _on_general_lock_pressed():
+	toggle_input_group(general_inputs, false)
+
+
+func _on_cellular_reroll_pressed():
+	randomize_input_group(cellular_inputs)
+
+func _on_cellular_unlock_pressed():
+	toggle_input_group(cellular_inputs, true)
+
+func _on_cellular_lock_pressed():
+	toggle_input_group(cellular_inputs, false)
+
+
+func _on_domain_warp_reroll_pressed():
+	randomize_input_group(domain_warp_inputs)
+
+func _on_domain_warp_unlock_pressed():
+	toggle_input_group(domain_warp_inputs, true)
+
+func _on_domain_warp_lock_pressed():
+	toggle_input_group(domain_warp_inputs, false)
+
+
+func _on_domain_warp_fractal_reroll_pressed():
+	randomize_input_group(domain_warp_fractal_inputs)
+
+func _on_domain_warp_fractal_unlock_pressed():
+	toggle_input_group(domain_warp_fractal_inputs, true)
+
+func _on_domain_warp_fractal_lock_pressed():
+	toggle_input_group(domain_warp_fractal_inputs, false)
+
+
+func _on_fractal_reroll_pressed():
+	randomize_input_group(fractal_inputs)
+
+func _on_fractal_unlock_pressed():
+	toggle_input_group(fractal_inputs, true)
+
+func _on_fractal_lock_pressed():
+	toggle_input_group(fractal_inputs, false)
+
+
+func _on_all_reroll_pressed():
+	randomize_input_group(general_inputs)
+	randomize_input_group(cellular_inputs)
+	randomize_input_group(domain_warp_inputs)
+	randomize_input_group(domain_warp_fractal_inputs)
+	randomize_input_group(fractal_inputs)
+
+func _on_all_unlock_pressed():
+	toggle_input_group(general_inputs, true)
+	toggle_input_group(cellular_inputs, true)
+	toggle_input_group(domain_warp_inputs, true)
+	toggle_input_group(domain_warp_fractal_inputs, true)
+	toggle_input_group(fractal_inputs, true)
+
+func _on_all_lock_pressed():
+	toggle_input_group(general_inputs, false)
+	toggle_input_group(cellular_inputs, false)
+	toggle_input_group(domain_warp_inputs, false)
+	toggle_input_group(domain_warp_fractal_inputs, false)
+	toggle_input_group(fractal_inputs, false)
