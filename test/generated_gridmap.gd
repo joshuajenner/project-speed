@@ -5,7 +5,7 @@ extends Node3D
 @onready var grid_map: GridMap = $GridMap
 
 
-var map_size: int = 96
+var map_size: int = 256
 var mapped_cells_0: Array[Array] = []
 var mapped_cells_1: Array[Array] = []
 
@@ -28,9 +28,10 @@ func init_cells_arrays() -> void:
 
 
 func _on_noise_generator_noise_generated(noise: FastNoiseLite):
+	init_cells_arrays()
 	generate_tilemap(noise)
 	solve_tilemap()
-#	map_tilemap_to_gridmap()
+	map_tilemap_to_gridmap()
 
 
 func generate_tilemap(noise: FastNoiseLite) -> void:
@@ -79,6 +80,11 @@ func get_cell_index_from_surrounding_cells(cell_map: Array, cell_x: int, cell_y:
 		index += 2
 	return index
 
+
+
+
+
+
 #func generate_tilemap(noise: FastNoiseLite):
 #	mapped_cells_0 = []
 #	mapped_cells_1 = []
@@ -99,9 +105,16 @@ func get_cell_index_from_surrounding_cells(cell_map: Array, cell_x: int, cell_y:
 				
 #	tile_map.set_cells_terrain_connect(0, mapped_cells_0, 0, 0)
 #	tile_map.set_cells_terrain_connect(1, mapped_cells_1, 0, 1)
-	
 
 func map_tilemap_to_gridmap() -> void:
+	grid_map.clear()
+	for x in range(0, map_size):
+		for y in range(0, map_size):
+			grid_map.set_cell_item(Vector3i(x, 0, y), 0, 0)
+			grid_map.set_cell_item(Vector3i(x, 1, y), mapped_cells_0[x][y], 0)
+			grid_map.set_cell_item(Vector3i(x, 2, y), mapped_cells_1[x][y], 0)
+
+func map_tilemap_to_gridmap_old() -> void:
 	grid_map.clear()
 	for x in range(-map_size, map_size):
 		for y in range(-map_size, map_size):
