@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b4ar32hifxrl6"
+path="res://.godot/imported/side_cliff_neg_x.obj-ec104b7a97275b3ba5847b8cd5fad80a.mesh"
+
+[deps]
+
+files=["res://.godot/imported/side_cliff_neg_x.obj-ec104b7a97275b3ba5847b8cd5fad80a.mesh"]
+
+source_file="res://assets/new_terrain/side_cliff_neg_x.obj"
+dest_files=["res://.godot/imported/side_cliff_neg_x.obj-ec104b7a97275b3ba5847b8cd5fad80a.mesh", "res://.godot/imported/side_cliff_neg_x.obj-ec104b7a97275b3ba5847b8cd5fad80a.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

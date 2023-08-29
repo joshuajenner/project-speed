@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cbiivgh38exiw"
+path="res://.godot/imported/side_corner_neg_z_pos_x.obj-26fcca345d5d29ea8d5038c5fad5837a.mesh"
+
+[deps]
+
+files=["res://.godot/imported/side_corner_neg_z_pos_x.obj-26fcca345d5d29ea8d5038c5fad5837a.mesh"]
+
+source_file="res://assets/new_terrain/side_corner_neg_z_pos_x.obj"
+dest_files=["res://.godot/imported/side_corner_neg_z_pos_x.obj-26fcca345d5d29ea8d5038c5fad5837a.mesh", "res://.godot/imported/side_corner_neg_z_pos_x.obj-26fcca345d5d29ea8d5038c5fad5837a.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
