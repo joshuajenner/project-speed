@@ -70,20 +70,30 @@ func solve_tilemap() -> void:
 
 func get_cell_index_from_surrounding_cells(cell_map: Array, cell_x: int, cell_y: int) -> int:
 	var index: int = 0
-	if cell_map[cell_x - 1][cell_y - 1] >= 0:
-		index += 8
-	if cell_map[min(map_size-1, cell_x + 1)][cell_y - 1] >= 0:
+	if cell_map[cell_x][cell_y - 1] >= 0:
 		index += 1
-	if cell_map[cell_x - 1][min(map_size-1, cell_y + 1)] >= 0:
-		index += 4
-	if cell_map[min(map_size-1, cell_x + 1)][min(map_size-1, cell_y + 1)] >= 0:
+	if cell_map[min(map_size-1, cell_x + 1)][cell_y] >= 0:
 		index += 2
+	if cell_map[cell_x][min(map_size-1, cell_y + 1)] >= 0:
+		index += 4
+	if cell_map[cell_x - 1][cell_y] >= 0:
+		index += 8
+		
+	if index == 15:
+		index = solve_surrounded_cell(cell_map, cell_x, cell_y)
 	return index
 
-
-
-
-
+func solve_surrounded_cell(cell_map: Array, cell_x: int, cell_y: int) -> int:
+	var index: int = 0
+	if cell_map[cell_x - 1][cell_y - 1] < 0:
+		index += 8
+	if cell_map[min(map_size-1, cell_x + 1)][cell_y - 1] < 0:
+		index += 1
+	if cell_map[cell_x - 1][min(map_size-1, cell_y + 1)] < 0:
+		index += 4
+	if cell_map[min(map_size-1, cell_x + 1)][min(map_size-1, cell_y + 1)] < 0:
+		index += 2
+	return index
 
 #func generate_tilemap(noise: FastNoiseLite):
 #	mapped_cells_0 = []
@@ -113,6 +123,7 @@ func map_tilemap_to_gridmap() -> void:
 			grid_map.set_cell_item(Vector3i(x, 0, y), 0, 0)
 			grid_map.set_cell_item(Vector3i(x, 1, y), mapped_cells_0[x][y], 0)
 			grid_map.set_cell_item(Vector3i(x, 2, y), mapped_cells_1[x][y], 0)
+
 
 func map_tilemap_to_gridmap_old() -> void:
 	grid_map.clear()

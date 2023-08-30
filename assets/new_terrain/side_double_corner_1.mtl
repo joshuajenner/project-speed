@@ -1,7 +1,7 @@
 # Blender 3.4.1 MTL File: 'None'
 # www.blender.org
 
-newmtl rock
+newmtl rock.006
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.909804 0.517647 0.388235
@@ -11,7 +11,7 @@ Ni 1.450000
 d 1.000000
 illum 1
 
-newmtl rock.002
+newmtl rock.008
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.909804 0.517647 0.388235
@@ -21,7 +21,7 @@ Ni 1.450000
 d 1.000000
 illum 1
 
-newmtl rockDark
+newmtl rockDark.006
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.698039 0.372549 0.262745
@@ -31,7 +31,7 @@ Ni 1.450000
 d 1.000000
 illum 1
 
-newmtl rockDark.002
+newmtl rockDark.008
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.698039 0.372549 0.262745
