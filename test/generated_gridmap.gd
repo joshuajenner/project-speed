@@ -9,6 +9,7 @@ var noise: FastNoiseLite = noise_resource.create_noise()
 
 var chunk_size: int = 100
 var chunk_center: int = chunk_size / 2
+var chunk_size_bordered: int = chunk_size + 2
 var chunk_current_coord := Vector2i(chunk_center, chunk_center)
 var loaded_chunks: Array[Vector2i] = []
 var chunks_to_load: Array[Vector2i] = []
@@ -21,7 +22,8 @@ var mapped_cells_1: Array[Array] = []
 
 
 func _ready():
-	pass
+	for x in range(0, chunk_size+2):
+		print(x)
 
 
 func _physics_process(delta):
@@ -75,19 +77,18 @@ func load_chunks() -> void:
 			chunks_to_load.remove_at(0)
 
 
-func build_chunk(middle_coords: Vector2i) -> void:
-	for x in chunk_size:
-		for y in chunk_size:
-			grid_map.set_cell_item(Vector3i(middle_coords.x - chunk_center + x, 0, middle_coords.y - chunk_center + y), 0, 0)
-			
+#func build_chunk(middle_coords: Vector2i) -> void:
+#	for x in chunk_size:
+#		for y in chunk_size:
+#			grid_map.set_cell_item(Vector3i(middle_coords.x - chunk_center + x, 0, middle_coords.y - chunk_center + y), 0, 0)
 
 func init_cells_arrays() -> void:
 	mapped_cells_0.clear()
 	mapped_cells_1.clear()
-	for x in range(chunk_size):
+	for x in range(chunk_size_bordered):
 		mapped_cells_0.push_back([])
 		mapped_cells_1.push_back([])
-		for y in range(chunk_size):
+		for y in range(chunk_size_bordered):
 			mapped_cells_0[x].push_back(-1)
 			mapped_cells_1[x].push_back(-1)
 
@@ -100,9 +101,9 @@ func _on_noise_generator_noise_generated(noise: FastNoiseLite):
 
 
 func generate_tilemap(noise: FastNoiseLite, chunk_coords: Vector2i) -> void:
-	for x in range(0, chunk_size):
-		for y in range(0, chunk_size):
-			var noise_level: float = (noise.get_noise_2d(chunk_coords.x + x, chunk_coords.y + y) + 1) / 2
+	for x in range(0, chunk_size_bordered):
+		for y in range(0, chunk_size_bordered):
+			var noise_level: float = (noise.get_noise_2d(chunk_coords.x - chunk_center + x, chunk_coords.y - chunk_center + y) + 1) / 2
 			if noise_level > 0.60:
 				mapped_cells_1[x][y] = 0
 				mapped_cells_1[max(0, x-1)][y] = 0
@@ -117,8 +118,8 @@ func generate_tilemap(noise: FastNoiseLite, chunk_coords: Vector2i) -> void:
 
 
 func solve_tilemap() -> void:
-	for x in range(0, chunk_size):
-		for y in range(0, chunk_size):
+	for x in range(0, chunk_size_bordered):
+		for y in range(0, chunk_size_bordered):
 			if mapped_cells_0[x][y] >= 0:
 				var cell_index: int = get_cell_index_from_surrounding_cells(mapped_cells_0, x, y)
 				mapped_cells_0[x][y] = cell_index
@@ -132,9 +133,9 @@ func get_cell_index_from_surrounding_cells(cell_map: Array, cell_x: int, cell_y:
 	var index: int = 0
 	if cell_map[cell_x][cell_y - 1] >= 0:
 		index += 1
-	if cell_map[min(chunk_size-1, cell_x + 1)][cell_y] >= 0:
+	if cell_map[min(chunk_size_bordered-1, cell_x + 1)][cell_y] >= 0:
 		index += 2
-	if cell_map[cell_x][min(chunk_size-1, cell_y + 1)] >= 0:
+	if cell_map[cell_x][min(chunk_size_bordered-1, cell_y + 1)] >= 0:
 		index += 4
 	if cell_map[cell_x - 1][cell_y] >= 0:
 		index += 8
@@ -147,11 +148,11 @@ func solve_surrounded_cell(cell_map: Array, cell_x: int, cell_y: int) -> int:
 	var index: int = 0
 	if cell_map[cell_x - 1][cell_y - 1] < 0:
 		index += 8
-	if cell_map[min(chunk_size-1, cell_x + 1)][cell_y - 1] < 0:
+	if cell_map[min(chunk_size_bordered-1, cell_x + 1)][cell_y - 1] < 0:
 		index += 1
-	if cell_map[cell_x - 1][min(chunk_size-1, cell_y + 1)] < 0:
+	if cell_map[cell_x - 1][min(chunk_size_bordered-1, cell_y + 1)] < 0:
 		index += 4
-	if cell_map[min(chunk_size-1, cell_x + 1)][min(chunk_size-1, cell_y + 1)] < 0:
+	if cell_map[min(chunk_size_bordered-1, cell_x + 1)][min(chunk_size_bordered-1, cell_y + 1)] < 0:
 		index += 2
 	return index
 
@@ -161,6 +162,6 @@ func map_tilemap_to_gridmap(chunk_coord: Vector2i) -> void:
 	for x in range(0, chunk_size):
 		for y in range(0, chunk_size):
 			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 0, chunk_coord.y - chunk_center + y), 0, 0)
-			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 1, chunk_coord.y - chunk_center + y), mapped_cells_0[x][y], 0)
-			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 2, chunk_coord.y - chunk_center + y), mapped_cells_1[x][y], 0)
+			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 1, chunk_coord.y - chunk_center + y), mapped_cells_0[x+1][y+1], 0)
+			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 2, chunk_coord.y - chunk_center + y), mapped_cells_1[x+1][y+1], 0)
 	loaded_chunks.push_back(chunk_coord)
