@@ -4,10 +4,13 @@ extends Node3D
 @onready var tile_map: TileMap = %TileMap
 @onready var grid_map: GridMap = $GridMap
 
-var chunk_size: int = 512
+var chunk_size: int = 100
 var chunk_center: int = chunk_size / 2
 var chunk_current_coord := Vector2i(chunk_center, chunk_center)
 var loaded_chunks: Array[Vector2i] = [chunk_current_coord]
+var chunks_to_load: Array[Vector2i] = []
+var minimum_distance_to_load_chunk: float = 100.0
+
 
 var mapped_cells_0: Array[Array] = []
 var mapped_cells_1: Array[Array] = []
@@ -19,11 +22,59 @@ func _ready():
 
 
 func _physics_process(delta):
-	print(Player.current_position)
+	update_current_chunk_position()
+	check_for_chunks_to_load()
+	load_chunks()
+#	print(Player.current_position)
 
 
 func update_current_chunk_position() -> void:
-	pass
+	var player_2d_position := Vector2(Player.current_position.x, Player.current_position.z)
+	chunk_current_coord = get_nearest_chunk_coord_to(player_2d_position)
+#	print(80 / 100)
+#	print(nearest_chunk_coord)
+
+
+func check_for_chunks_to_load() -> void:
+	var local_chunks: Array[Vector2i] = get_local_chunks_from(chunk_current_coord)
+	
+	for chunk_coord in local_chunks:
+		var player_position := Vector2(Player.current_position.x, Player.current_position.z)
+		if player_position.distance_to(chunk_coord) < minimum_distance_to_load_chunk:
+			if not chunks_to_load.has(chunk_coord):
+				chunks_to_load.push_back(chunk_coord)
+
+
+func get_nearest_chunk_coord_to(check_position: Vector2) -> Vector2i:
+	var nearest_x: int = (round(check_position.x / chunk_size) * chunk_size) + chunk_center
+	var nearest_y: int = (round(check_position.y / chunk_size) * chunk_size) + chunk_center
+	return Vector2i(nearest_x, nearest_y)
+
+
+func get_local_chunks_from(middle_chunk: Vector2i) -> Array[Vector2i]:
+	var chunk_array: Array[Vector2i] = []
+	chunk_array.push_back(middle_chunk)
+	chunk_array.push_back(Vector2i(middle_chunk.x + chunk_size, middle_chunk.y))
+	chunk_array.push_back(Vector2i(middle_chunk.x, middle_chunk.y + chunk_size))
+	chunk_array.push_back(Vector2i(middle_chunk.x - chunk_size, middle_chunk.y))
+	chunk_array.push_back(Vector2i(middle_chunk.x, middle_chunk.y - chunk_size))
+	chunk_array.push_back(Vector2i(middle_chunk.x + chunk_size, middle_chunk.y + chunk_size))
+	chunk_array.push_back(Vector2i(middle_chunk.x + chunk_size, middle_chunk.y - chunk_size))
+	chunk_array.push_back(Vector2i(middle_chunk.x - chunk_size, middle_chunk.y + chunk_size))
+	chunk_array.push_back(Vector2i(middle_chunk.x - chunk_size, middle_chunk.y - chunk_size))
+	return chunk_array
+
+
+func load_chunks() -> void:
+	if chunks_to_load.size() > 0:
+		build_chunk(chunks_to_load[0])
+		chunks_to_load.pop_front()
+
+
+func build_chunk(middle_coords: Vector2i) -> void:
+	for x in chunk_size:
+		for y in chunk_size:
+			grid_map.set_cell_item(Vector3i(middle_coords.x - chunk_center + x, 0, middle_coords.y - chunk_center + y), 0, 0)
 
 
 func init_cells_arrays() -> void:
