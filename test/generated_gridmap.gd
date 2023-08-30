@@ -7,7 +7,7 @@ extends Node3D
 var noise_resource: NoiseResource = load("res://noise/cellular_1.tres")
 var noise: FastNoiseLite = noise_resource.create_noise()
 
-var chunk_size: int = 128
+var chunk_size: int = 100
 var chunk_center: int = chunk_size / 2
 var chunk_current_coord := Vector2i(chunk_center, chunk_center)
 var loaded_chunks: Array[Vector2i] = []
@@ -27,17 +27,12 @@ func _ready():
 func _physics_process(delta):
 	update_current_chunk_position()
 	check_for_chunks_to_load()
-	print(chunks_to_load.size())
 	load_chunks()
-	print(loaded_chunks.size())
-#	print(Player.current_position)
 
 
 func update_current_chunk_position() -> void:
 	var player_2d_position := Vector2(Player.current_position.x, Player.current_position.z)
 	chunk_current_coord = get_nearest_chunk_coord_to(player_2d_position)
-#	print(80 / 100)
-#	print(nearest_chunk_coord)
 
 
 func check_for_chunks_to_load() -> void:
@@ -46,7 +41,7 @@ func check_for_chunks_to_load() -> void:
 	for chunk_coord in local_chunks:
 		var player_position := Vector2(Player.current_position.x, Player.current_position.z)
 		if player_position.distance_to(chunk_coord) < minimum_distance_to_load_chunk:
-			if not chunks_to_load.has(chunk_coord):
+			if not chunks_to_load.has(chunk_coord) and not loaded_chunks.has(chunk_coord):
 				chunks_to_load.push_back(chunk_coord)
 
 
@@ -77,8 +72,7 @@ func load_chunks() -> void:
 			generate_tilemap(noise, chunks_to_load[0])
 			solve_tilemap()
 			map_tilemap_to_gridmap(chunks_to_load[0])
-	#		build_chunk(chunks_to_load[0])
-			chunks_to_load.pop_front()
+			chunks_to_load.remove_at(0)
 
 
 func build_chunk(middle_coords: Vector2i) -> void:
@@ -105,10 +99,10 @@ func _on_noise_generator_noise_generated(noise: FastNoiseLite):
 	map_tilemap_to_gridmap(Vector2i(chunk_center, chunk_center))
 
 
-func generate_tilemap(noise: FastNoiseLite, chunk_coords) -> void:
+func generate_tilemap(noise: FastNoiseLite, chunk_coords: Vector2i) -> void:
 	for x in range(0, chunk_size):
 		for y in range(0, chunk_size):
-			var noise_level = (noise.get_noise_2d(x, y) + 1) / 2
+			var noise_level: float = (noise.get_noise_2d(chunk_coords.x + x, chunk_coords.y + y) + 1) / 2
 			if noise_level > 0.60:
 				mapped_cells_1[x][y] = 0
 				mapped_cells_1[max(0, x-1)][y] = 0
@@ -148,7 +142,6 @@ func get_cell_index_from_surrounding_cells(cell_map: Array, cell_x: int, cell_y:
 	if index == 15:
 		index = solve_surrounded_cell(cell_map, cell_x, cell_y)
 	return index
-
 
 func solve_surrounded_cell(cell_map: Array, cell_x: int, cell_y: int) -> int:
 	var index: int = 0

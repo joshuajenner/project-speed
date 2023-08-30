@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqiy15cswqe5o"]
+
+[ext_resource type="PackedScene" uid="uid://c8k5sn6n46v8" path="res://players/base_player.tscn" id="2_w52gu"]
+[ext_resource type="Environment" uid="uid://bjd4g046m323e" path="res://environment/default_environment.tres" id="3_58450"]
+[ext_resource type="PackedScene" uid="uid://cmcq20y6k4wh4" path="res://debug/debug_menu.tscn" id="4_p8vts"]
+[ext_resource type="PackedScene" uid="uid://n550rodkynb" path="res://test/generated_gridmap.tscn" id="6_athlx"]
+[ext_resource type="PackedScene" uid="uid://clis755lpsjin" path="res://noise_generator/noise_generator.tscn" id="7_omawm"]
+
+[node name="Level" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_w52gu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+speed_base = 20
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.146447, -0.853553, -0.5, -0.5, -0.5, 0.707107, -0.853553, 0.146447, -0.5, 0, 15.5, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("3_58450")
+
+[node name="GeneratedGridMap" parent="." instance=ExtResource("6_athlx")]
+
+[node name="NoiseMenuOverlay" type="CanvasLayer" parent="."]
+
+[node name="NoiseGenerator" parent="NoiseMenuOverlay" instance=ExtResource("7_omawm")]
+
+[node name="DebugMenu" parent="." instance=ExtResource("4_p8vts")]
+
+[connection signal="noise_generated" from="NoiseMenuOverlay/NoiseGenerator" to="GeneratedGridMap" method="_on_noise_generator_noise_generated"]
