@@ -1,5 +1,7 @@
+class_name Player
 extends CharacterBody3D
 
+static var current_position := Vector3.ZERO
 
 @onready var input_debug = $DebugParent/InputDebug
 @onready var current_direction_debug = $DebugParent/CurrentDirectionDebug
@@ -23,10 +25,13 @@ var max_roll: float = 45
 
 
 func _physics_process(delta):
+	update_position()
 	get_input()
 	handle_flight()
 	rotate_ship_mesh()
 
+func update_position() -> void:
+	current_position = global_position
 
 func get_input():
 	direction_target.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
