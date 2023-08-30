@@ -7,7 +7,7 @@ extends Node3D
 var noise_resource: NoiseResource = load("res://noise/cellular_1.tres")
 var noise: FastNoiseLite = noise_resource.create_noise()
 
-var chunk_size: int = 100
+var chunk_size: int = 128
 var chunk_center: int = chunk_size / 2
 var chunk_size_bordered: int = chunk_size + 2
 var chunk_current_coord := Vector2i(chunk_center, chunk_center)
@@ -15,15 +15,12 @@ var loaded_chunks: Array[Vector2i] = []
 var chunks_to_load: Array[Vector2i] = []
 var minimum_distance_to_load_chunk: float = 128.0
 
-
 var mapped_cells_0: Array[Array] = []
 var mapped_cells_1: Array[Array] = []
 
 
-
 func _ready():
-	for x in range(0, chunk_size+2):
-		print(x)
+	pass
 
 
 func _physics_process(delta):
@@ -75,12 +72,6 @@ func load_chunks() -> void:
 			solve_tilemap()
 			map_tilemap_to_gridmap(chunks_to_load[0])
 			chunks_to_load.remove_at(0)
-
-
-#func build_chunk(middle_coords: Vector2i) -> void:
-#	for x in chunk_size:
-#		for y in chunk_size:
-#			grid_map.set_cell_item(Vector3i(middle_coords.x - chunk_center + x, 0, middle_coords.y - chunk_center + y), 0, 0)
 
 func init_cells_arrays() -> void:
 	mapped_cells_0.clear()
@@ -158,7 +149,6 @@ func solve_surrounded_cell(cell_map: Array, cell_x: int, cell_y: int) -> int:
 
 
 func map_tilemap_to_gridmap(chunk_coord: Vector2i) -> void:
-#	grid_map.clear()
 	for x in range(0, chunk_size):
 		for y in range(0, chunk_size):
 			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 0, chunk_coord.y - chunk_center + y), 0, 0)
