@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="NoiseResource" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://noise_generator/noise_resource.gd" id="1_15xkf"]
+
+[resource]
+script = ExtResource("1_15xkf")
+cellular_distance_function = 0
+cellular_jitter = 0.45
+cellular_return_type = 1
+domain_warp_amplitude = 30.0
+domain_warp_enabled = false
+domain_warp_fractal_gain = 0.5
+domain_warp_fractal_lacunarity = 6.0
+domain_warp_fractal_octaves = 5
+domain_warp_fractal_type = 1
+domain_warp_frequency = 0.05
+domain_warp_type = 0
+fractal_gain = 0.5
+fractal_lacunarity = 2.0
+fractal_octaves = 5.0
+fractal_ping_pong_strength = 2.0
+fractal_type = 1
+fractal_weighted_strength = 0.0
+frequency = 0.02
+noise_type = 0
+offset = Vector3(0, 0, 0)
+seed = 0
