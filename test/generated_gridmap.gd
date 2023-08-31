@@ -83,7 +83,10 @@ func init_cells_arrays() -> void:
 				chunk_data[l][x].push_back(-1)
 
 
-func _on_noise_generator_noise_generated(noise: FastNoiseLite):
+func _on_noise_generator_noise_generated(new_noise: FastNoiseLite):
+	noise = new_noise
+	loaded_chunks = []
+	grid_map.clear()
 	init_cells_arrays()
 	generate_tilemap(noise, Vector2i(chunk_center, chunk_center))
 	solve_tilemap()
