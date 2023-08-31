@@ -22,6 +22,7 @@ environment = ExtResource("3_58450")
 [node name="GeneratedGridMap" parent="." instance=ExtResource("6_athlx")]
 
 [node name="NoiseMenuOverlay" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="NoiseGenerator" parent="NoiseMenuOverlay" instance=ExtResource("7_omawm")]
 
