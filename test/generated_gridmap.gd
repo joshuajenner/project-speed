@@ -15,8 +15,9 @@ var loaded_chunks: Array[Vector2i] = []
 var chunks_to_load: Array[Vector2i] = []
 var minimum_distance_to_load_chunk: float = 128.0
 
-var mapped_cells_0: Array[Array] = []
-var mapped_cells_1: Array[Array] = []
+
+var chunk_layer_count: int = 4
+var chunk_data: Array[Array] = []
 
 
 func _ready():
@@ -36,7 +37,6 @@ func update_current_chunk_position() -> void:
 
 func check_for_chunks_to_load() -> void:
 	var local_chunks: Array[Vector2i] = get_local_chunks_from(chunk_current_coord)
-	
 	for chunk_coord in local_chunks:
 		var player_position := Vector2(Player.current_position.x, Player.current_position.z)
 		if player_position.distance_to(chunk_coord) < minimum_distance_to_load_chunk:
@@ -74,14 +74,13 @@ func load_chunks() -> void:
 			chunks_to_load.remove_at(0)
 
 func init_cells_arrays() -> void:
-	mapped_cells_0.clear()
-	mapped_cells_1.clear()
-	for x in range(chunk_size_bordered):
-		mapped_cells_0.push_back([])
-		mapped_cells_1.push_back([])
-		for y in range(chunk_size_bordered):
-			mapped_cells_0[x].push_back(-1)
-			mapped_cells_1[x].push_back(-1)
+	chunk_data.clear()
+	for l in range(chunk_layer_count):
+		chunk_data.push_back([])
+		for x in range(chunk_size_bordered):
+			chunk_data[l].push_back([])
+			for y in range(chunk_size_bordered):
+				chunk_data[l][x].push_back(-1)
 
 
 func _on_noise_generator_noise_generated(noise: FastNoiseLite):
@@ -92,66 +91,72 @@ func _on_noise_generator_noise_generated(noise: FastNoiseLite):
 
 
 func generate_tilemap(noise: FastNoiseLite, chunk_coords: Vector2i) -> void:
-	for x in range(0, chunk_size_bordered):
-		for y in range(0, chunk_size_bordered):
-			var noise_level: float = (noise.get_noise_2d(chunk_coords.x - chunk_center + x, chunk_coords.y - chunk_center + y) + 1) / 2
-			if noise_level > 0.60:
-				mapped_cells_1[x][y] = 0
-				mapped_cells_1[max(0, x-1)][y] = 0
-				mapped_cells_1[x][max(0, y-1)] = 0
-				mapped_cells_1[max(0, x-1)][max(0, y-1)] = 0
-			elif noise_level > 0.40:
-				mapped_cells_0[x][y] = 0
-				mapped_cells_0[max(0, x-1)][y] = 0
-				mapped_cells_0[x][max(0, y-1)] = 0
-				mapped_cells_0[max(0, x-1)][max(0, y-1)] = 0
+	for layer in chunk_layer_count:
+		var noise_level_minimum: float = 1.0 / (chunk_layer_count + 1) * (layer + 1)
+		for x in range(0, chunk_size_bordered):
+			for y in range(0, chunk_size_bordered):
+				var noise_level: float = (noise.get_noise_2d(chunk_coords.x - chunk_center + x, chunk_coords.y - chunk_center + y) + 1) / 2
+				if noise_level > noise_level_minimum:
+					chunk_data[layer][x][y] = 0
+					chunk_data[layer][max(0, x-1)][y] = 0
+					chunk_data[layer][x][max(0, y-1)] = 0
+					chunk_data[layer][max(0, x-1)][max(0, y-1)] = 0
+#			if noise_level > 0.60:
+#				mapped_cells_1[x][y] = 0
+#				mapped_cells_1[max(0, x-1)][y] = 0
+#				mapped_cells_1[x][max(0, y-1)] = 0
+#				mapped_cells_1[max(0, x-1)][max(0, y-1)] = 0
+#			elif noise_level > 0.40:
+#				mapped_cells_0[x][y] = 0
+#				mapped_cells_0[max(0, x-1)][y] = 0
+#				mapped_cells_0[x][max(0, y-1)] = 0
+#				mapped_cells_0[max(0, x-1)][max(0, y-1)] = 0
 	print("Cells Picked")
 
 
 func solve_tilemap() -> void:
-	for x in range(0, chunk_size_bordered):
-		for y in range(0, chunk_size_bordered):
-			if mapped_cells_0[x][y] >= 0:
-				var cell_index: int = get_cell_index_from_surrounding_cells(mapped_cells_0, x, y)
-				mapped_cells_0[x][y] = cell_index
-			if mapped_cells_1[x][y] >= 0:
-				var cell_index: int = get_cell_index_from_surrounding_cells(mapped_cells_1, x, y)
-				mapped_cells_1[x][y] = cell_index
+	for l in range(chunk_layer_count):
+		for x in range(0, chunk_size_bordered):
+			for y in range(0, chunk_size_bordered):
+				if chunk_data[l][x][y] >= 0:
+					var cell_index: int = get_cell_index_from_surrounding_cells(chunk_data, l, x, y)
+					chunk_data[l][x][y] = cell_index
 	print("Cells Orientated")
 
 
-func get_cell_index_from_surrounding_cells(cell_map: Array, cell_x: int, cell_y: int) -> int:
+func get_cell_index_from_surrounding_cells(cell_map: Array, layer: int, cell_x: int, cell_y: int) -> int:
 	var index: int = 0
-	if cell_map[cell_x][cell_y - 1] >= 0:
+	if cell_map[layer][cell_x][cell_y - 1] >= 0:
 		index += 1
-	if cell_map[min(chunk_size_bordered-1, cell_x + 1)][cell_y] >= 0:
+	if cell_map[layer][min(chunk_size_bordered-1, cell_x + 1)][cell_y] >= 0:
 		index += 2
-	if cell_map[cell_x][min(chunk_size_bordered-1, cell_y + 1)] >= 0:
+	if cell_map[layer][cell_x][min(chunk_size_bordered-1, cell_y + 1)] >= 0:
 		index += 4
-	if cell_map[cell_x - 1][cell_y] >= 0:
+	if cell_map[layer][cell_x - 1][cell_y] >= 0:
 		index += 8
-		
+	
 	if index == 15:
-		index = solve_surrounded_cell(cell_map, cell_x, cell_y)
+		index = solve_surrounded_cell(cell_map, layer, cell_x, cell_y)
 	return index
 
-func solve_surrounded_cell(cell_map: Array, cell_x: int, cell_y: int) -> int:
+func solve_surrounded_cell(cell_map: Array, layer: int, cell_x: int, cell_y: int) -> int:
 	var index: int = 0
-	if cell_map[cell_x - 1][cell_y - 1] < 0:
+	if cell_map[layer][cell_x - 1][cell_y - 1] < 0:
 		index += 8
-	if cell_map[min(chunk_size_bordered-1, cell_x + 1)][cell_y - 1] < 0:
+	if cell_map[layer][min(chunk_size_bordered-1, cell_x + 1)][cell_y - 1] < 0:
 		index += 1
-	if cell_map[cell_x - 1][min(chunk_size_bordered-1, cell_y + 1)] < 0:
+	if cell_map[layer][cell_x - 1][min(chunk_size_bordered-1, cell_y + 1)] < 0:
 		index += 4
-	if cell_map[min(chunk_size_bordered-1, cell_x + 1)][min(chunk_size_bordered-1, cell_y + 1)] < 0:
+	if cell_map[layer][min(chunk_size_bordered-1, cell_x + 1)][min(chunk_size_bordered-1, cell_y + 1)] < 0:
 		index += 2
 	return index
 
 
 func map_tilemap_to_gridmap(chunk_coord: Vector2i) -> void:
-	for x in range(0, chunk_size):
-		for y in range(0, chunk_size):
-			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 0, chunk_coord.y - chunk_center + y), 0, 0)
-			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 1, chunk_coord.y - chunk_center + y), mapped_cells_0[x+1][y+1], 0)
-			grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, 2, chunk_coord.y - chunk_center + y), mapped_cells_1[x+1][y+1], 0)
+	for l in range(chunk_layer_count):
+		for x in range(0, chunk_size):
+			for y in range(0, chunk_size):
+				if l == 0:
+					grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, -1, chunk_coord.y - chunk_center + y), 0, 0)
+				grid_map.set_cell_item(Vector3i(chunk_coord.x - chunk_center + x, l, chunk_coord.y - chunk_center + y), chunk_data[l][x+1][y+1], 0)
 	loaded_chunks.push_back(chunk_coord)
