@@ -3,7 +3,7 @@ extends Node3D
 
 @onready var grid_map: GridMap = $GridMap
 
-var chunk_size: int = 32
+var chunk_size: int = 16
 var chunk_size_bordered: int = chunk_size + 2
 var chunk_center: int = chunk_size / 2
 var chunk_layer_count: int = 2
@@ -105,14 +105,63 @@ func get_chunks_within_minimum_distance_to_load(player_coords: Vector2i) -> Arra
 
 func solve_chunk() -> void:
 	if chunks_to_solve.size() > 0:
-		var new_chunk: Array[Array] = init_empty_chunk()
-		apply_noise_to_empty_chunk(chunks_to_solve[0], new_chunk)
+		var new_chunk: Array[Array] = init_noise_chunk(chunks_to_solve[0])
+#		apply_noise_to_empty_chunk(chunks_to_solve[0], new_chunk)
+		for l in range(chunk_layer_count):
+			for x in range(0, chunk_size_bordered):
+				for y in range(0, chunk_size_bordered):
+					if new_chunk[l][x][y] >= 0:
+						var cell_index: int = get_cell_index_from_surrounding_cells(new_chunk, l, x, y)
+						new_chunk[l][x][y] = cell_index
+
 		chunks_to_place.push_back({"coord": chunks_to_solve[0], "chunk": new_chunk})
 		chunks_to_solve.remove_at(0)
 
+func get_cell_index_from_surrounding_cells(cell_map: Array, layer: int, cell_x: int, cell_y: int) -> int:
+	var index: int = 0
+	if cell_map[layer][cell_x][cell_y - 1] >= 0:
+		index += 1
+	if cell_map[layer][min(chunk_size_bordered-1, cell_x + 1)][cell_y] >= 0:
+		index += 2
+	if cell_map[layer][cell_x][min(chunk_size_bordered-1, cell_y + 1)] >= 0:
+		index += 4
+	if cell_map[layer][cell_x - 1][cell_y] >= 0:
+		index += 8
+	
+	if index == 15:
+		index = solve_surrounded_cell(cell_map, layer, cell_x, cell_y)
+	return index
 
-func init_noise_chunk() -> void:
-	pass
+func solve_surrounded_cell(cell_map: Array, layer: int, cell_x: int, cell_y: int) -> int:
+	var index: int = 0
+	if cell_map[layer][cell_x - 1][cell_y - 1] < 0:
+		index += 8
+	if cell_map[layer][min(chunk_size_bordered-1, cell_x + 1)][cell_y - 1] < 0:
+		index += 1
+	if cell_map[layer][cell_x - 1][min(chunk_size_bordered-1, cell_y + 1)] < 0:
+		index += 4
+	if cell_map[layer][min(chunk_size_bordered-1, cell_x + 1)][min(chunk_size_bordered-1, cell_y + 1)] < 0:
+		index += 2
+	return index
+
+
+func init_noise_chunk(chunk_coords: Vector2i) -> Array[Array]:
+	var new_chunk: Array[Array] = []
+	for layer in chunk_layer_count:
+		var noise_level_minimum: float = 1.0 / (chunk_layer_count + 1) * (layer + 1)
+		new_chunk.push_back([])
+		for x in range(0, chunk_size_bordered):
+			new_chunk[layer].push_back([])
+			for y in range(0, chunk_size_bordered):
+				var noise_level: float = (noise.get_noise_2d(chunk_coords.x - chunk_center + x, chunk_coords.y - chunk_center + y) + 1) / 2
+				if noise_level > noise_level_minimum:
+					new_chunk[layer][x].push_back(0)
+					new_chunk[layer][max(0, x-1)][y] = 0
+					new_chunk[layer][x][max(0, y-1)] = 0
+					new_chunk[layer][max(0, x-1)][max(0, y-1)] = 0
+				else:
+					new_chunk[layer][x].push_back(-1)
+	return new_chunk
 
 
 func init_empty_chunk() -> Array[Array]:
@@ -133,7 +182,7 @@ func apply_noise_to_empty_chunk(chunk_coords: Vector2i, empty_chunk: Array[Array
 			for y in range(0, chunk_size_bordered):
 				var noise_level: float = (noise.get_noise_2d(chunk_coords.x - chunk_center + x, chunk_coords.y - chunk_center + y) + 1) / 2
 				if noise_level > noise_level_minimum:
-					empty_chunk[layer][x][y] = 0
+					empty_chunk[layer][x].push_back(0)
 					empty_chunk[layer][max(0, x-1)][y] = 0
 					empty_chunk[layer][x][max(0, y-1)] = 0
 					empty_chunk[layer][max(0, x-1)][max(0, y-1)] = 0
@@ -142,9 +191,12 @@ func apply_noise_to_empty_chunk(chunk_coords: Vector2i, empty_chunk: Array[Array
 func place_chunk() -> void:
 	if chunks_to_place.size() > 0:
 		placed_chunks.push_back(chunks_to_place[0]["coord"])
-		for x in range(0, chunk_size):
-			for y in range(0, chunk_size):
-				grid_map.set_cell_item(Vector3i(chunks_to_place[0]["coord"].x - chunk_center + x, -1, chunks_to_place[0]["coord"].y - chunk_center + y), 0, 0)
+		for l in chunk_layer_count:
+			for x in range(0, chunk_size):
+				for y in range(0, chunk_size):
+					if l == 0:
+						grid_map.set_cell_item(Vector3i(chunks_to_place[0]["coord"].x - chunk_center + x, -1, chunks_to_place[0]["coord"].y - chunk_center + y), 0, 0)
+					grid_map.set_cell_item(Vector3i(chunks_to_place[0]["coord"].x - chunk_center + x, l, chunks_to_place[0]["coord"].y - chunk_center + y), chunks_to_place[0]["chunk"][l][x+1][y+1], 0)
 		chunks_to_place.remove_at(0)
 
 

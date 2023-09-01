@@ -38,7 +38,7 @@ skeleton = NodePath("../..")
 transform = Transform3D(-1, -7.9232e-08, 3.69465e-08, 0, 0.422618, 0.906308, -8.74228e-08, 0.906308, -0.422618, 0, 0, 0)
 
 [node name="Camera" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 70)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 35)
 size = 40.0
 
 [node name="DebugParent" type="Node3D" parent="."]
