@@ -16,7 +16,7 @@ var chunks_to_load: Array[Vector2i] = []
 var minimum_distance_to_load_chunk: float = 128.0
 
 
-var chunk_layer_count: int = 4
+var chunk_layer_count: int = 2
 var chunk_data: Array[Array] = []
 
 
