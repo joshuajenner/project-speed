@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dqiy15cswqe5o"]
+
+[ext_resource type="PackedScene" uid="uid://q2b5mmogrdod" path="res://levels/terrain/generate_flat_terrain.tscn" id="2_kusrf"]
+[ext_resource type="PackedScene" uid="uid://c8k5sn6n46v8" path="res://players/base_player.tscn" id="2_w52gu"]
+[ext_resource type="Environment" uid="uid://bjd4g046m323e" path="res://environment/default_environment.tres" id="3_clwct"]
+
+[node name="Level" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_w52gu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+speed_base = 20
+
+[node name="GenerateFlatTerrain" parent="." instance=ExtResource("2_kusrf")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("3_clwct")

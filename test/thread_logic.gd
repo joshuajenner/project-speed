@@ -21,6 +21,7 @@ func handle_chunk_generation():
 	get_chunks_to_solve()
 	while is_thread_active:
 		solve_chunk()
+		semaphore.wait()
 
 
 func _physics_process(delta):
@@ -42,6 +43,7 @@ func place_solved_chunks():
 	if chunks_to_place > 0:
 		chunks_to_place -= 1
 		print("Placed a Chunk")
+		semaphore.post()
 
 func _exit_tree():
 	is_thread_active = false

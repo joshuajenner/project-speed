@@ -1,19 +1,18 @@
 extends Node3D
 
 
-@onready var tile_map: TileMap = %TileMap
 @onready var grid_map: GridMap = $GridMap
 
 var noise_resource: NoiseResource = load("res://noise/cellular_1.tres")
 var noise: FastNoiseLite = noise_resource.create_noise()
 
-var chunk_size: int = 128
+var chunk_size: int = 64
 var chunk_center: int = chunk_size / 2
 var chunk_size_bordered: int = chunk_size + 2
 var chunk_current_coord := Vector2i(chunk_center, chunk_center)
 var loaded_chunks: Array[Vector2i] = []
 var chunks_to_solve: Array[Vector2i] = []
-var minimum_distance_to_load_chunk: float = 128.0
+var minimum_distance_to_load_chunk: float = 640.0
 
 var chunk_layer_count: int = 4
 var chunk_data: Array[Array] = []
@@ -28,14 +27,18 @@ func _ready():
 
 
 func _physics_process(delta):
+	update_current_chunk_position()
+	check_for_chunks_to_load()
+	load_chunks()
 	place_chunks()
 
 
 func handle_chunk_loading():
 	while is_thread_active:
-		update_current_chunk_position()
-		check_for_chunks_to_load()
-		load_chunks()
+#		update_current_chunk_position()
+#		check_for_chunks_to_load()
+#		load_chunks()
+		semaphore.wait()
 
 
 func update_current_chunk_position() -> void:
@@ -55,6 +58,7 @@ func check_for_chunks_to_load() -> void:
 		if player_position.distance_to(chunk_coord) < minimum_distance_to_load_chunk:
 			if not chunks_to_solve.has(chunk_coord) and not loaded_chunks.has(chunk_coord):
 				chunks_to_solve.push_back(chunk_coord)
+				DebugMenu.display_value("Chunks To Solve: ", chunks_to_solve.size())
 
 func get_local_chunks_from(middle_chunk: Vector2i) -> Array[Vector2i]:
 	var chunk_array: Array[Vector2i] = []
@@ -77,13 +81,17 @@ func load_chunks() -> void:
 			generate_tilemap(noise, chunks_to_solve[0])
 			solve_tilemap()
 			chunks_to_place.push_back({"coord": chunks_to_solve[0], "chunk": chunk_data})
+			DebugMenu.display_value("Chunks To Place: ", chunks_to_place.size())
 			chunks_to_solve.remove_at(0)
+			DebugMenu.display_value("Chunks To Solve: ", chunks_to_solve.size())
 
 
 func place_chunks() -> void:
 	if chunks_to_place.size() > 0:
 		map_chunk_to_gridmap(chunks_to_place[0])
 		chunks_to_place.remove_at(0)
+		DebugMenu.display_value("Chunks To Place: ", chunks_to_place.size())
+		semaphore.post()
 
 
 func init_cells_arrays() -> void:
@@ -117,17 +125,7 @@ func generate_tilemap(noise: FastNoiseLite, chunk_coords: Vector2i) -> void:
 					chunk_data[layer][max(0, x-1)][y] = 0
 					chunk_data[layer][x][max(0, y-1)] = 0
 					chunk_data[layer][max(0, x-1)][max(0, y-1)] = 0
-#			if noise_level > 0.60:
-#				mapped_cells_1[x][y] = 0
-#				mapped_cells_1[max(0, x-1)][y] = 0
-#				mapped_cells_1[x][max(0, y-1)] = 0
-#				mapped_cells_1[max(0, x-1)][max(0, y-1)] = 0
-#			elif noise_level > 0.40:
-#				mapped_cells_0[x][y] = 0
-#				mapped_cells_0[max(0, x-1)][y] = 0
-#				mapped_cells_0[x][max(0, y-1)] = 0
-#				mapped_cells_0[max(0, x-1)][max(0, y-1)] = 0
-	print("Cells Picked")
+#	print("Cells Picked")
 
 
 func solve_tilemap() -> void:
@@ -137,7 +135,7 @@ func solve_tilemap() -> void:
 				if chunk_data[l][x][y] >= 0:
 					var cell_index: int = get_cell_index_from_surrounding_cells(chunk_data, l, x, y)
 					chunk_data[l][x][y] = cell_index
-	print("Cells Orientated")
+#	print("Cells Orientated")
 
 
 func get_cell_index_from_surrounding_cells(cell_map: Array, layer: int, cell_x: int, cell_y: int) -> int:
@@ -176,8 +174,10 @@ func map_chunk_to_gridmap(new_chunk: Dictionary) -> void:
 					grid_map.set_cell_item(Vector3i(new_chunk["coord"].x - chunk_center + x, -1, new_chunk["coord"].y - chunk_center + y), 0, 0)
 				grid_map.set_cell_item(Vector3i(new_chunk["coord"].x - chunk_center + x, l, new_chunk["coord"].y - chunk_center + y), new_chunk["chunk"][l][x+1][y+1], 0)
 	loaded_chunks.push_back(new_chunk["coord"])
+	DebugMenu.display_value("Loaded Chunks: ", loaded_chunks.size())
 
 
 func _exit_tree():
 	is_thread_active = false
+	semaphore.post()
 	thread.wait_to_finish()
