@@ -1,15 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://dqiy15cswqe5o"]
+[gd_scene load_steps=7 format=3 uid="uid://dqiy15cswqe5o"]
 
 [ext_resource type="PackedScene" path="res://levels/terrain/baked/map_0.tscn" id="2_v5v28"]
 [ext_resource type="PackedScene" uid="uid://c8k5sn6n46v8" path="res://players/base_player.tscn" id="2_w52gu"]
 [ext_resource type="Environment" uid="uid://bjd4g046m323e" path="res://environment/default_environment.tres" id="3_58450"]
 [ext_resource type="PackedScene" uid="uid://cmcq20y6k4wh4" path="res://debug/debug_menu.tscn" id="4_p8vts"]
-[ext_resource type="PackedScene" uid="uid://clis755lpsjin" path="res://noise_generator/noise_generator.tscn" id="7_omawm"]
+[ext_resource type="PackedScene" uid="uid://2wp6ftus4e1a" path="res://ui/controls.tscn" id="6_wxi46"]
+[ext_resource type="PackedScene" uid="uid://cjq77eo83l3mt" path="res://ui/play_menu.tscn" id="6_xajy0"]
 
 [node name="Level" type="Node3D"]
 
 [node name="Player" parent="." instance=ExtResource("2_w52gu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 speed_base = 20
 
 [node name="GridMap" parent="." instance=ExtResource("2_v5v28")]
@@ -21,9 +22,11 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_58450")
 
-[node name="NoiseMenuOverlay" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="NoiseGenerator" parent="NoiseMenuOverlay" instance=ExtResource("7_omawm")]
-
 [node name="DebugMenu" parent="." instance=ExtResource("4_p8vts")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="PlayMenu" parent="CanvasLayer" instance=ExtResource("6_xajy0")]
+
+[node name="Controls" parent="CanvasLayer" instance=ExtResource("6_wxi46")]

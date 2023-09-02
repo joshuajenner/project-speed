@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8k5sn6n46v8"]
+[gd_scene load_steps=8 format=3 uid="uid://c8k5sn6n46v8"]
 
 [ext_resource type="Script" path="res://players/base_player.gd" id="1_knhe1"]
 [ext_resource type="ArrayMesh" uid="uid://cvyt3532d5yde" path="res://assets/models/ships/craft_speederD.obj" id="2_2j4y7"]
@@ -9,14 +9,6 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_d708e"]
 radius = 1.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u5lxk"]
-transparency = 1
-no_depth_test = true
-albedo_color = Color(0.470588, 1, 1, 0.196078)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_yl1tf"]
-size = Vector2(160, 75)
 
 [node name="Player" type="CharacterBody3D"]
 motion_mode = 1
@@ -55,10 +47,3 @@ length = 4.0
 material = ExtResource("6_qfryw")
 radius = 0.05
 length = 4.0
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="DebugParent"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
-material_override = SubResource("StandardMaterial3D_u5lxk")
-cast_shadow = 0
-gi_mode = 0
-mesh = SubResource("PlaneMesh_yl1tf")
