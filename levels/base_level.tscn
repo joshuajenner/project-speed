@@ -24,9 +24,9 @@ environment = ExtResource("3_58450")
 
 [node name="DebugMenu" parent="." instance=ExtResource("4_p8vts")]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 layer = 10
 
-[node name="PlayMenu" parent="CanvasLayer" instance=ExtResource("6_xajy0")]
+[node name="PlayMenu" parent="UI" instance=ExtResource("6_xajy0")]
 
-[node name="Controls" parent="CanvasLayer" instance=ExtResource("6_wxi46")]
+[node name="Controls" parent="UI" instance=ExtResource("6_wxi46")]
