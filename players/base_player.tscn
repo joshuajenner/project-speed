@@ -29,21 +29,21 @@ mesh = ExtResource("2_2j4y7")
 skeleton = NodePath("../..")
 
 [node name="LeftWing" parent="ShipMeshPivot/ShipMesh" instance=ExtResource("3_epwhv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0.2, -0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0.2, -0.2)
 from_width = 0.05
 scale_acceleration = 0.5
 motion_delta = 0.5
-life_span = 0.25
-start_color = Color(0.458824, 0.458824, 0.458824, 0.588235)
+life_span = 0.2
+start_color = Color(1, 1, 1, 0.588235)
 end_color = Color(1, 1, 1, 0)
 
 [node name="RightWing" parent="ShipMeshPivot/ShipMesh" instance=ExtResource("3_epwhv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0.2, -0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0.2, -0.2)
 from_width = 0.05
 scale_acceleration = 0.5
 motion_delta = 0.5
-life_span = 0.25
-start_color = Color(0.458824, 0.458824, 0.458824, 0.588235)
+life_span = 0.2
+start_color = Color(1, 1, 1, 0.588235)
 end_color = Color(1, 1, 1, 0)
 
 [node name="LeftThruster" parent="ShipMeshPivot/ShipMesh" instance=ExtResource("3_epwhv")]
