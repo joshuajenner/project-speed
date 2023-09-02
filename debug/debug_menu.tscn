@@ -1,11 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://cmcq20y6k4wh4"]
+[gd_scene load_steps=3 format=3 uid="uid://cmcq20y6k4wh4"]
 
 [ext_resource type="Script" path="res://debug/debug_menu.gd" id="1_37sc4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkwhy"]
+bg_color = Color(0, 0, 0, 0.901961)
 
 [node name="DebugMenu" type="CanvasLayer"]
 script = ExtResource("1_37sc4")
 
-[node name="Main" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,7 +19,16 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="Button" type="Button" parent="Main"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+
+[node name="Panel" type="Panel" parent="MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pkwhy")
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2

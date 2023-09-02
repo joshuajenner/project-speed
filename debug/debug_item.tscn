@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3mr0jca6afgh"]
+
+[ext_resource type="Script" path="res://debug/debug_item.gd" id="1_45brc"]
+
+[node name="DebugItem" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+script = ExtResource("1_45brc")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Debug Label"
+
+[node name="Value" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Debug Value"

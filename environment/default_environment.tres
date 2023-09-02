@@ -7,6 +7,7 @@ background_energy_multiplier = 0.2
 reflected_light_source = 2
 tonemap_mode = 3
 tonemap_exposure = 0.5
+ssao_enabled = true
 sdfgi_enabled = true
 sdfgi_use_occlusion = true
 volumetric_fog_density = 0.005

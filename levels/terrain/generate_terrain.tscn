@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://q2b5mmogrdod"]
+
+[ext_resource type="Script" path="res://levels/terrain/generate_terrain.gd" id="1_l0ri1"]
+[ext_resource type="MeshLibrary" uid="uid://dyswvei05m3gh" path="res://test/mesh_library_gridmap.tres" id="2_glcie"]
+
+[node name="GenerateFlatTerrain" type="Node3D"]
+script = ExtResource("1_l0ri1")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("2_glcie")
+cell_size = Vector3(0.99, 0.5, 0.99)

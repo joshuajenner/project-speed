@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbcr7l4kllf1"]
+
+[ext_resource type="Script" path="res://levels/terrain/baked/bake_terrain.gd" id="1_m6aeu"]
+
+[node name="BakeTerrain" type="Node3D"]
+script = ExtResource("1_m6aeu")
