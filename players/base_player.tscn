@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8k5sn6n46v8"]
+[gd_scene load_steps=9 format=3 uid="uid://c8k5sn6n46v8"]
 
 [ext_resource type="Script" path="res://players/base_player.gd" id="1_knhe1"]
 [ext_resource type="ArrayMesh" uid="uid://cvyt3532d5yde" path="res://assets/models/ships/craft_speederD.obj" id="2_2j4y7"]
 [ext_resource type="Script" path="res://debug/debug_parent.gd" id="3_634v2"]
+[ext_resource type="PackedScene" uid="uid://dvc4swj2cw3jx" path="res://players/effects/trail_effect.tscn" id="3_epwhv"]
 [ext_resource type="PackedScene" uid="uid://xhy5mfugv43n" path="res://debug/debug_vector2.tscn" id="4_ypaq8"]
 [ext_resource type="Material" uid="uid://debld8pokmr4r" path="res://assets/materials/debug/mtrl_debug_blue.tres" id="5_shkg3"]
 [ext_resource type="Material" uid="uid://uxfpt501kd13" path="res://assets/materials/debug/mtrl_debug_green.tres" id="6_qfryw"]
@@ -26,6 +27,40 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.
 gi_mode = 2
 mesh = ExtResource("2_2j4y7")
 skeleton = NodePath("../..")
+
+[node name="LeftWing" parent="ShipMeshPivot/ShipMesh" instance=ExtResource("3_epwhv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0.2, -0.25)
+from_width = 0.05
+scale_acceleration = 0.5
+motion_delta = 0.5
+life_span = 0.25
+start_color = Color(0.458824, 0.458824, 0.458824, 0.588235)
+end_color = Color(1, 1, 1, 0)
+
+[node name="RightWing" parent="ShipMeshPivot/ShipMesh" instance=ExtResource("3_epwhv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0.2, -0.25)
+from_width = 0.05
+scale_acceleration = 0.5
+motion_delta = 0.5
+life_span = 0.25
+start_color = Color(0.458824, 0.458824, 0.458824, 0.588235)
+end_color = Color(1, 1, 1, 0)
+
+[node name="LeftThruster" parent="ShipMeshPivot/ShipMesh" instance=ExtResource("3_epwhv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.4, -1)
+from_width = 0.2
+scale_acceleration = 0.5
+life_span = 0.05
+start_color = Color(1, 0.345098, 0, 1)
+end_color = Color(0.929412, 0.654902, 0, 0.588235)
+
+[node name="RightThruster" parent="ShipMeshPivot/ShipMesh" instance=ExtResource("3_epwhv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.4, -1)
+from_width = 0.2
+scale_acceleration = 0.5
+life_span = 0.05
+start_color = Color(1, 0.345098, 0, 1)
+end_color = Color(0.929412, 0.654902, 0, 0.588235)
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(-1, -7.9232e-08, 3.69465e-08, 0, 0.422618, 0.906308, -8.74228e-08, 0.906308, -0.422618, 0, 0, 0)

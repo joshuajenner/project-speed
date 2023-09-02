@@ -8,8 +8,8 @@ static var current_position := Vector3.ZERO
 @onready var ship_mesh_pivot = $ShipMeshPivot
 
 
-@export var speed_base: int = 100
-@export var speed_current: int = 100
+@export var speed_base: int = 150
+@export var speed_current: int = 150
 @export var speed_max: int = 500
 
 @export var accleration: int = 10

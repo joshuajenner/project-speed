@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvc4swj2cw3jx"]
+
+[ext_resource type="Script" path="res://players/effects/trail_effect.gd" id="1_oe0rh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v3nrp"]
+transparency = 1
+blend_mode = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+
+[node name="TrailEffect" type="MeshInstance3D"]
+material_override = SubResource("StandardMaterial3D_v3nrp")
+script = ExtResource("1_oe0rh")
