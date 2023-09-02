@@ -43,6 +43,7 @@ size = 40.0
 
 [node name="DebugParent" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
 script = ExtResource("3_634v2")
 
 [node name="InputDebug" parent="DebugParent" instance=ExtResource("4_ypaq8")]

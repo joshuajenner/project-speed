@@ -11,13 +11,13 @@ var center: int
 var layer_count: int
 
 
-func _init(noise, coord, size, layers):
-	self.noise = noise
-	self.coord = coord
-	self.size = size
-	self.size_bordered = size+2
-	self.center = size/2
-	self.layer_count = layers
+func _init(_noise, _coord, _size, _layers):
+	self.noise = _noise
+	self.coord = _coord
+	self.size = _size
+	self.size_bordered = _size+2
+	self.center = _size/2
+	self.layer_count = _layers
 
 
 func _ready():
@@ -41,6 +41,7 @@ func set_gridmap(new_chunk: Array[Array]) -> void:
 				for y in range(0, size):
 					if l == 0:
 						chunk.set_cell_item(Vector3i(x, -1, y), 0, 0)
+					chunk.set_cell_item(Vector3i(x, l, y), new_chunk[l][x+1][y+1], 0)
 
 
 
