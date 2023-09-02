@@ -3,7 +3,7 @@ extends Node3D
 
 @onready var grid_map: GridMap = $GridMap
 
-var chunk_size: int = 16
+var chunk_size: int = 32
 var chunk_size_bordered: int = chunk_size + 2
 var chunk_center: int = chunk_size / 2
 var chunk_layer_count: int = 2
@@ -18,6 +18,7 @@ var minimum_distance_to_load_chunk: float = 120.0
 var is_thread_active: bool = true
 var thread: Thread
 var semaphore: Semaphore
+var mutex: Mutex
 
 var noise: FastNoiseLite
 var noise_resource: NoiseResource = load("res://noise/cellular_1.tres")
@@ -27,17 +28,16 @@ func _ready():
 	
 	thread = Thread.new()
 	semaphore = Semaphore.new()
+	mutex = Mutex.new()
 	thread.start(handle_chunk_solving)
 
 
 func _process(delta):
 	var player_coords := Vector2i(Player.current_position.x, Player.current_position.z)
 	
-	var current_chunk_coord = get_nearest_chunk_coord(player_coords)
-	if current_chunk_coord != previous_chunk_coord:
-		previous_chunk_coord == current_chunk_coord
+	update_chunks_to_solve(player_coords)
+	if chunks_to_solve.size() > 0:
 		semaphore.post()
-	
 	place_chunk()
 	
 	DebugMenu.display_value("Player Coords: ", player_coords)
@@ -48,8 +48,6 @@ func _process(delta):
 func handle_chunk_solving():
 	while is_thread_active:
 		semaphore.wait()
-		var player_coords := Vector2i(Player.current_position.x, Player.current_position.z)
-		update_chunks_to_solve(player_coords)
 		solve_chunk()
 
 
@@ -61,7 +59,6 @@ func get_nearest_chunk_coord(player_coords: Vector2i) -> Vector2i:
 
 func update_chunks_to_solve(player_coords: Vector2i) -> void:
 	var nearby_chunks_coords: Array[Vector2i] = get_chunks_within_minimum_distance_to_load(player_coords)
-#	DebugMenu.display_value("Chunks Within Loading: ", nearby_chunks_coords.size())
 	for chunk_coord in nearby_chunks_coords:
 		if not chunks_to_solve.has(chunk_coord) and not placed_chunks.has(chunk_coord):
 			chunks_to_solve.push_back(chunk_coord)
@@ -113,9 +110,10 @@ func solve_chunk() -> void:
 					if new_chunk[l][x][y] >= 0:
 						var cell_index: int = get_cell_index_from_surrounding_cells(new_chunk, l, x, y)
 						new_chunk[l][x][y] = cell_index
-
+		mutex.lock()
 		chunks_to_place.push_back({"coord": chunks_to_solve[0], "chunk": new_chunk})
 		chunks_to_solve.remove_at(0)
+		mutex.unlock()
 
 func get_cell_index_from_surrounding_cells(cell_map: Array, layer: int, cell_x: int, cell_y: int) -> int:
 	var index: int = 0

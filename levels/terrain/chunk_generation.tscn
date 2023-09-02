@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://birox4v26xxjb"]
+
+[ext_resource type="Script" path="res://levels/terrain/chunk_generation.gd" id="1_be5kt"]
+
+[node name="ChunkGeneration" type="Node3D"]
+script = ExtResource("1_be5kt")

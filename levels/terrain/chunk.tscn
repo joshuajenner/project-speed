@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4btpf81481yk"]
+
+[ext_resource type="Script" path="res://levels/terrain/chunk.gd" id="1_gwxdx"]
+
+[node name="Chunk" type="GridMap"]
+script = ExtResource("1_gwxdx")
