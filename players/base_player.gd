@@ -8,11 +8,12 @@ static var current_position := Vector3.ZERO
 @onready var ship_mesh_pivot = $ShipMeshPivot
 
 
-@export var speed_base: int = 150
-@export var speed_current: int = 150
-@export var speed_max: int = 500
+@export var speed_base: float = 20.0
+@export var speed_current: float = 20.0
+@export var speed_max: float = 25.0
 
-@export var accleration: int = 10
+@export var acceleration: float = 0.03
+@export var deceleration: float = 0.02
 @export var turn_speed : float = 0.03
 
 @export var direction_target: Vector2 = Vector2(0, 0)
@@ -27,8 +28,11 @@ var max_roll: float = 45
 func _physics_process(delta):
 	update_position()
 	get_input()
-	handle_flight()
+	handle_flight(delta)
 	rotate_ship_mesh()
+	
+	DebugMenu.display_value("Speed: ", speed_current)
+	DebugMenu.display_value("Turning: ", has_active_target_direction)
 
 func update_position() -> void:
 	current_position = global_position
@@ -51,14 +55,37 @@ func vector2_not_zero(vector: Vector2) -> bool:
 		return false
 
 
-func handle_flight():
+func handle_flight(delta: float):
 	if has_active_target_direction:
 		var input_angle = direction_target.angle()
 		var current_angle = direction_current.angle()
-		var new_angle = lerp_angle(current_angle, input_angle, turn_speed)
+		
+		var angle_to_target = direction_current.angle_to(direction_target)
+		var new_angle: float
+		
+		DebugMenu.display_value("Input: ", input_angle)
+		DebugMenu.display_value("Direction: ", angle_to_target)
+		
+		
+		if abs(angle_to_target) <= 0.05:
+			new_angle = input_angle
+		elif angle_to_target < 0:
+			new_angle =  current_angle - (PI/2 * turn_speed)
+		else:
+			new_angle = current_angle + (PI/2 * turn_speed)
+		
+		if abs(angle_to_target) < deg_to_rad(45.0):
+			speed_current = lerpf(speed_current, speed_max, acceleration)
+		else:
+			speed_current = lerpf(speed_current, speed_base, deceleration)
+		
 		direction_current = Vector2.from_angle(new_angle)
+#		speed_current = clamp((speed_current - (deceleration*delta)), speed_base, speed_max)
+	else:
+		speed_current = lerpf(speed_current, speed_max, acceleration)
+#		speed_current = clamp((speed_current + (acceleration*delta)), speed_base, speed_max)
 	
-	velocity = Vector3(direction_current.x, 0, direction_current.y) * speed_base
+	velocity = Vector3(direction_current.x, 0, direction_current.y) * speed_current
 	move_and_slide()
 	
 	#debug

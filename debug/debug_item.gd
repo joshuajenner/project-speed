@@ -12,5 +12,7 @@ func set_value(new_value) -> void:
 		$Value.text = str(new_value.x) + " / " + str(new_value.y)
 	elif new_value is Vector3:
 		$Value.text = str(new_value.x) + " / " + str(new_value.y) + " / " + str(new_value.z)
+	elif new_value is float:
+		$Value.text = str(snappedf(new_value, 0.01))
 	else:
 		$Value.text = str(new_value)
