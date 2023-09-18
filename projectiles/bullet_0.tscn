@@ -11,7 +11,7 @@ mesh = ExtResource("1_mc1ut")
 script = ExtResource("2_e7pkh")
 
 [node name="TrailEffect" parent="." instance=ExtResource("2_hggmo")]
-from_width = 0.4
+from_width = 0.2
 scale_acceleration = 1.5
 life_span = 0.1
 
