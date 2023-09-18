@@ -6,6 +6,9 @@ static var current_position := Vector3.ZERO
 @onready var input_debug = $DebugParent/InputDebug
 @onready var current_direction_debug = $DebugParent/CurrentDirectionDebug
 @onready var ship_mesh_pivot = $ShipMeshPivot
+@onready var left_muzzle = %LeftMuzzle
+@onready var right_muzzle = %RightMuzzle
+@onready var weapon_timer = %WeaponTimer
 
 
 @export var speed_base: float = 20.0
@@ -24,12 +27,16 @@ var target_direction_reached: bool = false
 
 var max_roll: float = 45
 
+var bullet: PackedScene = preload("res://projectiles/bullet_0.tscn")
+var can_fire_weapon: bool = true
+
 
 func _physics_process(delta):
 	update_position()
 	get_input()
 	handle_flight(delta)
 	rotate_ship_mesh()
+	handle_fire()
 	
 	DebugMenu.display_value("Speed: ", speed_current)
 	DebugMenu.display_value("Turning: ", has_active_target_direction)
@@ -46,6 +53,24 @@ func get_input():
 	
 	# debug
 	input_debug.draw_line(direction_target.normalized())
+
+
+func handle_fire():
+	if Input.is_action_pressed("shoot"):
+		fire_projectile()
+
+func fire_projectile():
+	if can_fire_weapon:
+		can_fire_weapon = false
+		weapon_timer.start()
+		var new_bullet = bullet.instantiate()
+		new_bullet.direction = direction_current
+		self.get_parent().add_child(new_bullet)
+		new_bullet.global_position = left_muzzle.global_position
+
+
+func _on_weapon_timer_timeout():
+	can_fire_weapon = true
 
 
 func vector2_not_zero(vector: Vector2) -> bool:

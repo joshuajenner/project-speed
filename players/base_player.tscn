@@ -62,11 +62,25 @@ life_span = 0.05
 start_color = Color(1, 0.345098, 0, 1)
 end_color = Color(0.929412, 0.654902, 0, 0.588235)
 
+[node name="Weapons" type="Node3D" parent="ShipMeshPivot"]
+
+[node name="RightMuzzle" type="Marker3D" parent="ShipMeshPivot/Weapons"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.15, 0.4)
+
+[node name="LeftMuzzle" type="Marker3D" parent="ShipMeshPivot/Weapons"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.15, -0.4)
+
+[node name="WeaponTimer" type="Timer" parent="ShipMeshPivot/Weapons"]
+unique_name_in_owner = true
+wait_time = 0.1
+
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(-1, -7.9232e-08, 3.69465e-08, 0, 0.422618, 0.906308, -8.74228e-08, 0.906308, -0.422618, 0, 0, 0)
 
 [node name="Camera" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
 size = 40.0
 
 [node name="DebugParent" type="Node3D" parent="."]
@@ -83,3 +97,5 @@ length = 4.0
 material = ExtResource("6_qfryw")
 radius = 0.05
 length = 4.0
+
+[connection signal="timeout" from="ShipMeshPivot/Weapons/WeaponTimer" to="." method="_on_weapon_timer_timeout"]
